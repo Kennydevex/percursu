@@ -15,7 +15,15 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamps();
+            $table->string('street', 50);
+            $table->string('city', 50);
+            $table->string('country', 50)->default('Cabo Verde');
+            $table->string('postcode', 10);
+            $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('folk_id');
+
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->foreign('folk_id')->references('id')->on('folks')->onDelete('cascade');
         });
     }
 

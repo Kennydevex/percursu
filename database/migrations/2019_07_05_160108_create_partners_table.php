@@ -15,6 +15,7 @@ class CreatePartnersTable extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->boolean('status')->nullable()->default(false);
             $table->timestamps();
         });
     }
