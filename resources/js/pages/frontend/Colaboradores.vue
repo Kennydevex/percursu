@@ -1,0 +1,14 @@
+<template>
+    <div>
+        Colaboradores
+        Colaboradores
+        Colaboradores
+        Colaboradores
+        Colaboradores
+        Colaboradores
+        Colaboradores
+        Colaboradores
+        Colaboradores
+        Colaboradores
+    </div>
+</template>
