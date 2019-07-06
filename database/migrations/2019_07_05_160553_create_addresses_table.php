@@ -22,8 +22,8 @@ class CreateAddressesTable extends Migration
             $table->unsignedBigInteger('location_id');
             $table->unsignedBigInteger('folk_id');
 
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->foreign('folk_id')->references('id')->on('folks')->onDelete('cascade');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
         });
     }
 

@@ -16,6 +16,9 @@ class CreateCouriersTable extends Migration
         Schema::create('couriers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('email', 100)->unique();
+            $table->unsignedBigInteger('folk_id');
+
+            $table->foreign('folk_id')->references('id')->on('folks')->onDelete('cascade');
         });
     }
 

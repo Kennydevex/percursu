@@ -18,6 +18,9 @@ class CreateMediaTable extends Migration
             $table->string('name', 100)->unique();
             $table->mediumText('description')->nullable();
             $table->enum('type', ['1', '2', '3'])->default('1');
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

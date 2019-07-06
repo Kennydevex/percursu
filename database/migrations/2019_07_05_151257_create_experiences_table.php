@@ -15,13 +15,17 @@ class CreateExperiencesTable extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('task', 100);
+            $table->string('task', 150);
+            $table->mediumText('description')->nullable();
             $table->date('from')->default(new DateTime());
             $table->date('to')->nullable();
             $table->boolean('ongoing')->nullable()->default(false);
             $table->string('employer', 120)->nullable();
             $table->multiLineString('responsibility')->nullable();
             $table->string('attachment', 100)->nullable()->default('default.svg');
+             $table->unsignedBigInteger('partner_id');
+            
+            $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
         });
     }
 

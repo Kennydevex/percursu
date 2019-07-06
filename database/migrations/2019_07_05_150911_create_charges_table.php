@@ -15,8 +15,11 @@ class CreateChargesTable extends Migration
     {
         Schema::create('charges', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 100)->unique();
+            $table->string('name', 100);
             $table->mediumText('description')->nullable();
+            $table->unsignedBigInteger('partner_id');
+            
+            $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
         });
     }
 

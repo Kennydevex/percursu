@@ -25,6 +25,9 @@ class CreateFormationsTable extends Migration
             $table->string('country', 50)->nullable()->default('Cabo Verde');
             $table->string('city', 50)->nullable();
             $table->string('attachment', 100)->nullable()->default('default.svg');
+            $table->unsignedBigInteger('partner_id');
+            
+            $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
         });
     }
 
