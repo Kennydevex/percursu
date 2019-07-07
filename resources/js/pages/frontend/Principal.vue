@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-import AppFooter from "./partials/Footer"
-import AppNavbar from "./partials/Navbar"
+import AppFooter from "./partials/Footer";
+import AppNavbar from "./partials/Navbar";
 export default {
   components: {
     AppNavbar,

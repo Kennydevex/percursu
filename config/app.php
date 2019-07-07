@@ -106,6 +106,38 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        // Personal Aliases
+        // Modelos do sistema
+        'User' => Percursu\Models\System\User::class,
+        'Role' => Percursu\Models\System\Role::class,
+        'Permission' => Percursu\Models\System\Permission::class,
+
+        'Tag' => Percursu\Models\CMS\Tag::class,
+        'Post' => Percursu\Models\CMS\Post::class,
+
+        'Address' => Percursu\Models\Helpers\Address::class,
+        'Category' => Percursu\Models\Helpers\Category::class,
+        'Courier' => Percursu\Models\Helpers\Courier::class,
+        'Entity' => Percursu\Models\Helpers\Entity::class,
+        'Folk' => Percursu\Models\Helpers\Folk::class,
+        'Location' => Percursu\Models\Helpers\Location::class,
+        'Phone' => Percursu\Models\Helpers\Phone::class,
+        'Site' => Percursu\Models\Helpers\Site::class,
+        'Social' => Percursu\Models\Helpers\Social::class,
+
+        'Charge' => Percursu\Models\Percursu\Charge::class,
+        'Experience' => Percursu\Models\Percursu\Experience::class,
+        'Formation' => Percursu\Models\Percursu\Formation::class,
+        'Media' => Percursu\Models\Percursu\Media::class,
+        'Partner' => Percursu\Models\Percursu\Partner::class,
+        'Skill' => Percursu\Models\Percursu\Skill::class,
+        'Company' => Percursu\Models\Percursu\Company::class,
+
+
+
+
+        //Helpers
+        'Common' => Percursu\Helpers\Common::class,
     ],
 
 ];

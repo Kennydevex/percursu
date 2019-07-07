@@ -18,7 +18,7 @@ class CreateCouriersTable extends Migration
             $table->string('email', 100)->unique();
             $table->unsignedBigInteger('folk_id');
 
-            $table->foreign('folk_id')->references('id')->on('folks')->onDelete('cascade');
+            $table->foreign('folk_id')->references('id')->on('folks')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

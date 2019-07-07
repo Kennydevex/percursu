@@ -20,4 +20,7 @@ class Formation extends Model
         'city',
         'attachment'
     ];
+
+    public function partner(){return $this->belongsTo('Partner');}
+
 }

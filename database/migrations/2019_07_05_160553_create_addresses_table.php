@@ -20,10 +20,10 @@ class CreateAddressesTable extends Migration
             $table->string('country', 50)->default('Cabo Verde');
             $table->string('postcode', 10);
             $table->unsignedBigInteger('location_id');
-            $table->unsignedBigInteger('folk_id');
+           $table->unsignedBigInteger('folk_id');
 
-            $table->foreign('folk_id')->references('id')->on('folks')->onDelete('cascade');
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->foreign('folk_id')->references('id')->on('folks')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('location_id')->references('id')->onUpdate('cascade')->on('locations')->onDelete('cascade');
         });
     }
 

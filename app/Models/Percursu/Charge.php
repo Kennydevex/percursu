@@ -8,4 +8,6 @@ class Charge extends Model
 {
     public $timestamps = false;
     protected $fillable = ['name', 'description'];
+
+    public function partners(){return $this->belongsToMany('Partner');}
 }

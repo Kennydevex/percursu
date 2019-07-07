@@ -15,14 +15,7 @@ class Post extends Model
      *
      * @return array
      */
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
+    public function sluggable(){return ['slug' => ['source' => 'title']];}
 
     protected $fillable = [
         'title',
@@ -32,5 +25,26 @@ class Post extends Model
         'featured',
         'category_id',
     ];
+
+
+    public function user(){return $this->belongsTo('User');}
+
+    public function category(){return $this->belongsTo('Category');}
+
+    public function tags(){return $this->belongsToMany('Tag');}
+
+    public function getStatusAttribute($value){
+        if ($value) {return true;} return false;
+    }
+
+    public function getFeaturingAttribute($value)
+    {
+        if ($value) {return true;} return false;
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany('Company');
+    }
 }
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChargesTable extends Migration
+class CreateSkillsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateChargesTable extends Migration
      */
     public function up()
     {
-        Schema::create('charges', function (Blueprint $table) {
+        Schema::create('skills', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 100);
+            $table->string('name', 150);
             $table->mediumText('description')->nullable();
             $table->unsignedBigInteger('partner_id');
             
-            $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
+            $table->foreign('partner_id')->references('id')->on('partners')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -30,6 +30,6 @@ class CreateChargesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('charges');
+        Schema::dropIfExists('skills');
     }
 }

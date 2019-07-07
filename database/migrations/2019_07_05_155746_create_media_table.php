@@ -20,7 +20,7 @@ class CreateMediaTable extends Migration
             $table->enum('type', ['1', '2', '3'])->default('1');
 
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

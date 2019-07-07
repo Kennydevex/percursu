@@ -17,9 +17,9 @@ class CreateSocialsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 100);
             $table->string('link', 250);
-            
-            $table->unsignedBigInteger('folk_id');
-            $table->foreign('folk_id')->references('id')->on('folks')->onDelete('cascade');
+            $table->unsignedBigInteger('partner_id');
+
+            $table->foreign('partner_id')->references('id')->on('partners')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

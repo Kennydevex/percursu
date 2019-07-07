@@ -2,6 +2,8 @@ require('./bootstrap')
 import '@mdi/font/css/materialdesignicons.css' 
 import Vue from 'vue'
 import vuetify from 'vuetify'
+import pt from 'vee-validate/dist/locale/pt_PT'
+import VeeValidate, {Validator} from 'vee-validate'
 import App from '@compts/App.vue'
 import 'vuetify/dist/vuetify.min.css'
 import router from './router'
@@ -16,6 +18,8 @@ AOS.init()
 Vue.use(VueAwesomeSwiper)
 import 'swiper/dist/css/swiper.css'
 
+Validator.localize('pt', pt);
+
 Vue.use(vuetify, {
     iconfont: 'mdi',
     theme: {
@@ -26,6 +30,9 @@ Vue.use(vuetify, {
         accent: colors.indigo.base
   }
 })
+
+Vue.use(VeeValidate)
+
 
 const app = new Vue({
     router,

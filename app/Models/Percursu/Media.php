@@ -12,4 +12,7 @@ class Media extends Model
         'description', 
         'type'
     ];
+
+    public function user(){return $this->belongsTo('User');}
+
 }

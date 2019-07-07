@@ -17,4 +17,7 @@ class Experience extends Model
         'responsibility',
         'attachment'
     ];
+
+    public function partner(){return $this->belongsTo('Partner');}
+
 }

@@ -16,7 +16,7 @@ class CreateFormationsTable extends Migration
         Schema::create('formations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('designation', 100);
-            $table->date('from')->default(new DateTime());
+            $table->date('from');
             $table->date('to')->nullable();
             $table->boolean('ongoing')->nullable()->default(false);
             $table->string('institution', 120)->nullable();
@@ -25,9 +25,10 @@ class CreateFormationsTable extends Migration
             $table->string('country', 50)->nullable()->default('Cabo Verde');
             $table->string('city', 50)->nullable();
             $table->string('attachment', 100)->nullable()->default('default.svg');
+            
             $table->unsignedBigInteger('partner_id');
             
-            $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
+            $table->foreign('partner_id')->references('id')->on('partners')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

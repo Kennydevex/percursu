@@ -15,10 +15,10 @@ class CreateSitesTable extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->mediumText('link')->unique();
+            $table->string('link', 150)->unique();
             $table->unsignedBigInteger('folk_id');
 
-            $table->foreign('folk_id')->references('id')->on('folks')->onDelete('cascade');
+            $table->foreign('folk_id')->references('id')->on('folks')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

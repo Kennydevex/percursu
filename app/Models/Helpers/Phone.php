@@ -8,4 +8,6 @@ class Phone extends Model
 {
     public $timestamps = false;
     protected $fillable = ['number'];
+
+    public function folk(){return $this->belongsTo('Folk');}
 }

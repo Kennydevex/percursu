@@ -8,4 +8,6 @@ class Courier extends Model
 {
     public $timestamps = false;
     protected $fillable = ['email'];
+
+    public function folk(){return $this->belongsTo('Folk');}
 }

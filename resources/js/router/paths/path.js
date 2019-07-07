@@ -8,6 +8,7 @@ import Colaboradores from '@pages/frontend/Colaboradores.vue'
 import Empregos from '@pages/frontend/Empregos.vue'
 import Formacoes from '@pages/frontend/Formacoes.vue'
 import Login from '@pages/frontend/Login.vue'
+import Register from '@pages/frontend/Register.vue'
 // ================== Backend ===========================
 import Admin from '@back/App.vue'
 import Dashboard from '@pages/backend/Dashboard.vue'
@@ -55,6 +56,10 @@ export default [
                         path: '/login',
                         name: 'login',
                         component: Login
+                    }, {
+                        path: '/registar',
+                        name: 'register',
+                        component: Register
                     }
                 ]
             }

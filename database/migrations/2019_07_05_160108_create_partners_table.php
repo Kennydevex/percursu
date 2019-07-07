@@ -19,7 +19,7 @@ class CreatePartnersTable extends Migration
             $table->unsignedBigInteger('folk_id');
             $table->timestamps();
 
-            $table->foreign('folk_id')->references('id')->on('folks')->onDelete('cascade');
+            $table->foreign('folk_id')->references('id')->on('folks')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

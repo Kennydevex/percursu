@@ -8,4 +8,6 @@ class Location extends Model
 {
     public $timestamps = false;
     protected $fillable = ['lat', 'lng'];
+
+    public function address(){return $this->hasOne('Address');}
 }

@@ -20,15 +20,13 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->boolean('status')->nullable()->default(false);
-            $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('folk_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
 
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('folk_id')->references('id')->on('folks')->onDelete('cascade');
+            $table->foreign('folk_id')->references('id')->on('folks')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
