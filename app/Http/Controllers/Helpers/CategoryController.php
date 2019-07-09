@@ -1,9 +1,11 @@
 <?php
 
-namespace Percursu\Http\Controllers\Percursu;
+namespace Percursu\Http\Controllers\Helpers;
 
-use Percursu\Models\Helpers\Category;
+use Percursu\Http\Controllers\Controller;
+use Category;
 use Illuminate\Http\Request;
+
 
 class CategoryController extends Controller
 {
@@ -14,17 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $categories = Category::all();
+        return response()->Json(['CATEGORY' => $categories], 200);
     }
 
     /**
@@ -35,7 +28,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $category = Category::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'entity_id' => $request->entity,
+        ]);
+        return response()->Json(['msg' => "Operação efetuada com sucesso"], 200);
+
     }
 
     /**
@@ -46,18 +45,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Percursu\Models\Helpers\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
+        $category=Category::findOrfail($category);
+        dd($category);
     }
 
     /**
@@ -69,7 +58,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category=Category::findOrfail($category);
+        // $category->update([
+        //     'name' => $request->name,
+        //     'description' => $request->description,
+        //     'entity_id' => $request->entity,
+        // ]);
     }
 
     /**

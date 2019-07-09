@@ -1,8 +1,8 @@
 <?php
 
 namespace Percursu\Http\Controllers\Helpers;
-
-use Percursu\Models\Helpers\Folk;
+use Percursu\Http\Controllers\Controller;
+use Folk;
 use Illuminate\Http\Request;
 
 class FolkController extends Controller

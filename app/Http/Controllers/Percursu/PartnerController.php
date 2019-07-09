@@ -24,7 +24,15 @@ class PartnerController extends Controller
      */
     public function create()
     {
-        //
+        $folk = Common::createFolk($request);
+        //Utilizador
+        $user = User::create([
+            'email'=>$request->email, 
+            'username'=>$request->username, 
+            'password'=>bcrypt($request->password), 
+            'status'=>$request->status,
+            'folk_id'=>$folk->id, 
+        ]);
     }
 
     /**

@@ -10,14 +10,14 @@ class Common
 {
 
   //Categorias
-  public static function verifyCategory($categoryName, $entityName)
+  public static function verifyCategory($category, $entity)
   {
-    $category = Category::whereName($categoryName)->first();
+    $category = Category::whereName($category)->first();
     if (!$category) {
-      $entity = self::findOrCreateEntity($entityName);
+      $entity = self::findOrCreateEntity($entity);
       $category = Category::create([
-        'name' => $categoryName,
-        'description' => "Categoria para a tabela " . $entityName,
+        'name' => $category,
+        'description' => "Categoria para a tabela " . $entity,
         'entity_id' => $entity->id
       ]);
     }
@@ -26,12 +26,17 @@ class Common
 
 
   //Entidades
-  public static function findOrCreateEntity($entityName)
+  public static function findOrCreateEntity($entity)
   {
-    $entity = Entity::whereName($entityName)->first();
+    $entity = Entity::whereName($entity)->first();
     if (!$entity) {
-     $entity = Entity::create(['name' => $entityName,'status'=> true]);
+     $entity = Entity::create(['name' => $entity]);
     }
+
+    $entity->update([
+      'status'=>true
+    ]);
+
     return $entity;
   }
 

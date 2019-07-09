@@ -2,7 +2,8 @@
 
 namespace Percursu\Http\Controllers\Percursu;
 
-use Percursu\Models\Percursu\Company;
+use Percursu\Http\Controllers\Controller;
+use Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -14,20 +15,11 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        $companies = Company::all();
+        return response()->Json(['Empresas' => $companies], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
+     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,7 +27,18 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = Company::create([
+            'name' => $request->name,
+            'slogan' => $request->slogan,
+            'presentation' => $request->presentation,
+            'logo' => $request->logo,
+            'cover' => $request->cover,
+            'start' => $request->start,
+            'status' => $request->status,
+            'category_id' => $request->category,
+            // 'user_id' => auth->user(),
+        ]);
+        return response()->Json(['msg' => "Operação efetuada com sucesso"], 200);
     }
 
     /**
@@ -49,17 +52,7 @@ class CompanyController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Percursu\Models\Percursu\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Company $company)
-    {
-        //
-    }
-
+  
     /**
      * Update the specified resource in storage.
      *

@@ -1,8 +1,8 @@
 <?php
 
 namespace Percursu\Http\Controllers\CMS;
-
-use Percursu\Models\Percursu\Charge;
+use Percursu\Http\Controllers\Controller;
+use Charge;
 use Illuminate\Http\Request;
 
 class ChargeController extends Controller
@@ -17,17 +17,7 @@ class ChargeController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
+     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

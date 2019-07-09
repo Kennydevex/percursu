@@ -13,26 +13,47 @@
                     <small>Autenticar</small>
                   </div>
 
+                  <v-flex xs12>
+                    <v-alert
+                      :value="loginError"
+                      color="error"
+                      icon="mdi-alert"
+                      outline
+                      dismissible
+                      transition="scale-transition"
+                    >{{loginError}}</v-alert>
+                  </v-flex>
+
                   <v-form>
-                    <v-text-field
-                      append-icon="mdi-account-key"
-                      name="login"
-                      label="Email"
-                      type="text"
-                      v-validate="'required|email'"
-                      data-vv-name="email"
-                      :error-messages="errors.collect('email')"
-                    ></v-text-field>
-                    <v-text-field
-                      append-icon="mdi-lock-open"
-                      name="password"
-                      label="Password"
-                      id="password"
-                      type="password"
-                      v-validate="'required|min:8'"
-                      data-vv-name="password"
-                      :error-messages="errors.collect('password')"
-                    ></v-text-field>
+                    <v-container grid-list-sm ma-0 pa-0>
+                      <v-layout row wrap>
+                        <v-flex xs12>
+                          <v-text-field
+                            v-model="formData.email"
+                            append-icon="mdi-account-key"
+                            name="login"
+                            label="Email"
+                            type="text"
+                            v-validate="'required|email'"
+                            data-vv-name="email"
+                            :error-messages="errors.collect('email')"
+                          ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                          <v-text-field
+                            v-model="formData.password"
+                            :append-icon="passIcon ? 'mdi-eye' : 'mdi-eye-off'"
+                            @click:append="() => (passIcon = !passIcon)"
+                            :type="passIcon ? 'password' : 'text'"
+                            name="password"
+                            label="Password"
+                            id="password"
+                            data-vv-name="password"
+                            :error-messages="errors.collect('password')"
+                          ></v-text-field>
+                        </v-flex>
+                      </v-layout>
+                    </v-container>
                   </v-form>
                 </v-card-text>
 
@@ -81,10 +102,18 @@
 </template>
 
 <script>
+import { login } from "@helpers/authentication";
 import validateDictionary from "@helpers/api/validateDictionary";
 export default {
   data() {
     return {
+      sending: false,
+      formData: {
+        email: '',
+        password: '',
+        remember_token: false
+      },
+      passIcon: true,
       dictionary: validateDictionary
     };
   },
@@ -92,11 +121,31 @@ export default {
   mounted() {
     this.$validator.localize("pt", this.dictionary);
   },
+
+  computed: {
+    loginError: function() {
+      return this.$store.getters.authError;
+    }
+  },
   methods: {
+    togglePassIcon(params) {
+      this.passIcon = !this.passIcon;
+    },
     authenticate() {
       this.$validator.validateAll().then(valid => {
         if (valid) {
-          console.log("teste");
+          this.sending = true;
+          this.$store.dispatch("login");
+          login(this.$data.formData)
+            .then(response => {
+              this.$store.commit("loginSuccess", response);
+              this.$router.push({ path: "/" });
+              this.sending = false;
+            })
+            .catch(error => {
+              this.$store.commit("loginFailed", { error });
+              this.sending = false;
+            });
         }
       });
     }

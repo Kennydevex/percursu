@@ -65,7 +65,7 @@
 
                         <v-flex xs6>
                           <v-text-field
-                            v-model="formData.passwword"
+                            v-model="formData.password"
                             prepend-icon="mdi-lock"
                             name="password"
                             label="Palavra Passe"
@@ -159,8 +159,11 @@ export default {
         password: "",
         password_confirmation: "",
         gender: "nd",
+        avatar: "default.svg",
         status: false
       },
+      sending: false,
+      acoountCreated: false,
       dictionary: validateDictionary
     };
   },
@@ -173,6 +176,17 @@ export default {
     register() {
       this.$validator.validateAll().then(valid => {
         if (valid) {
+          this.sending = true;
+          axios
+            .post("/api/v1/auth/register", this.$data.formData)
+            .then(response => {
+              this.sending = false;
+              this.acoountCreated = true;
+            })
+            .catch(err => {
+              this.sending = false;
+              this.acoountCreated = false;
+            });
         }
       });
     }

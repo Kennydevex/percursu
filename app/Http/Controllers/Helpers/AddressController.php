@@ -24,7 +24,9 @@ class AddressController extends Controller
      */
     public function create()
     {
-        //
+        //Toda a lógica de guardar endereço é implementada apenas no momento de guardar dados de uam pessoas
+        //Pois, não temos anecessidade de guaradr endereço apanas por guardar, sabe-se bem que este tem de
+        //Estar associado obrigatóriamente e uma pessoa.
     }
 
     /**
