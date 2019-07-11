@@ -16,6 +16,7 @@ class CreatePhonesTable extends Migration
         Schema::create('phones', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('number', 15)->unique();
+            $table->enum('type', ['1', '2','3', '4'])->nullable()->default('1');
            $table->unsignedBigInteger('folk_id');
 
             $table->foreign('folk_id')->references('id')->on('folks')->onUpdate('cascade')->onDelete('cascade');

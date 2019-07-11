@@ -20,4 +20,6 @@ class Experience extends Model
 
     public function partner(){return $this->belongsTo('Partner');}
 
+    public function getStatusAttribute($value){if ($value) {return true;}return false;}
+
 }

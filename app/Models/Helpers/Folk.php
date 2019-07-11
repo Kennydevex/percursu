@@ -18,6 +18,10 @@ class Folk extends Model
         'category_id'
     ];
 
+    public function user(){return $this->hasOne('User');}
+
+    public function partner(){return $this->hasOne('Partner');}
+
     public function addresses(){return $this->hasMany('Address');}
 
     public function phones(){return $this->hasMany('Phone');}

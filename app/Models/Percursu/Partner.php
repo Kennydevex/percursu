@@ -8,6 +8,8 @@ class Partner extends Model
 {
     protected $fillable = ['status', 'folk_id'];
 
+    public function folk(){return $this->belongsTo('Folk');}
+
     public function formations(){return $this->hasMany('Formation');}
 
     public function experiences(){return $this->hasMany('Post');}

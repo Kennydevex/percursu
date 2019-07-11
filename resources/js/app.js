@@ -17,6 +17,12 @@ import 'aos/dist/aos.css'
 import { init } from '@helpers/init'
 AOS.init()
 
+// if (process.env.MIX_APP_ENV === 'production') {
+//     Vue.config.devtools = false;
+//     Vue.config.debug = false;
+//     Vue.config.silent = true;
+// }
+
 
 
 Vue.use(VueAwesomeSwiper)
@@ -37,6 +43,13 @@ Vue.use(vuetify, {
 Vue.use(VueSweetalert2, { confirmButtonColor: '#004D40', cancelButtonColor: '##C62828' })
 
 Vue.use(VeeValidate)
+
+// General mixins
+Vue.mixin({
+    computed: {
+        authUser: function () { return this.$store.getters.authUser }
+    },
+})
 
 init(store, router)
 const app = new Vue({

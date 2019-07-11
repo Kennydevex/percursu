@@ -12,7 +12,6 @@
           <v-btn :to="{name: 'colaboradores'}" class="pa-2" round flat>Colaboradores</v-btn>
           <v-btn :to="{name: 'empregos'}" class="pa-2" round flat>Empregos</v-btn>
           <v-btn :to="{name: 'formacoes'}" class="pa-2" round flat>Formações</v-btn>
-
           <template v-if="!authUser">
             <v-btn :to="{name: 'login'}" fab class="pa-2" flat>
               <v-icon left>mdi-login</v-icon>
@@ -30,8 +29,8 @@
               transition="scale-transition"
               flat
             >
-              <v-btn icon large flat slot="activator">
-                <v-avatar color="teal lighten-2" size="30px">
+              <v-btn icon small flat slot="activator">
+                <v-avatar size="28px">
                   <img
                     :src="`/images/users/avatars/${authUser.folk.avatar}`"
                     alt="Estefanio Silva"
@@ -65,12 +64,6 @@
     </v-toolbar-items>
   </v-toolbar>
 </template>
-        </v-flex>
-      </v-layout>
-    </v-toolbar-items>
-  </v-toolbar>
-</template>
-
 
 <script>
 export default {
@@ -82,7 +75,7 @@ export default {
           href: "#",
           title: "Perfil",
           click: e => {
-            console.log(e);
+            this.$router.push({ name: "front-perfil" });
           }
         },
         {
@@ -104,13 +97,8 @@ export default {
       ]
     };
   },
-
-  computed: {
-    authUser: function() {
-      return this.$store.getters.authUser;
-    }
-  },
-
+ 
+ 
   methods: {
     logout: function() {
       this.$store.commit("logout");

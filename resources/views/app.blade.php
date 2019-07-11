@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="Site para apresentção da EICM-GDC">
     <meta name="author" content="Estefânio Silva">
-    <title>EICM-GDC</title>
+    <title>Percursu</title>
 </head>
 <body>
     <div id="_app"></div>

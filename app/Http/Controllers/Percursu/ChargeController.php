@@ -25,7 +25,7 @@ class ChargeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //gfdfg
     }
 
     /**

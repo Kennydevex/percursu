@@ -35,7 +35,7 @@ class AuthController extends Controller
         //Relacionamento
         // $user->syncRoles($request->roles);
         // $user->syncPermissions($request->permissions);
-        $user->folk;
+        $user->folk->partner;
         $token = JWTAuth::fromUser($user);
         return response()->json(compact('token', 'user'));
     }

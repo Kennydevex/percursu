@@ -16,6 +16,7 @@ class CreateSitesTable extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('link', 150)->unique();
+            $table->mediumText('description')->nullable();
             $table->unsignedBigInteger('folk_id');
 
             $table->foreign('folk_id')->references('id')->on('folks')->onUpdate('cascade')->onDelete('cascade');

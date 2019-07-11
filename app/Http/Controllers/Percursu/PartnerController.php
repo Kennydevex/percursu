@@ -2,8 +2,13 @@
 
 namespace Percursu\Http\Controllers\Percursu;
 
-use Percursu\Models\Percursu\Partner;
+use Partner;
+use Company;
+use Experience;
+use Formation;
+use Skill;
 use Illuminate\Http\Request;
+use Auth;
 
 class PartnerController extends Controller
 {
@@ -24,15 +29,67 @@ class PartnerController extends Controller
      */
     public function create()
     {
-        $folk = Common::createFolk($request);
+        // $folk = Common::createFolk($request);
         //Utilizador
-        $user = User::create([
-            'email'=>$request->email, 
-            'username'=>$request->username, 
-            'password'=>bcrypt($request->password), 
-            'status'=>$request->status,
-            'folk_id'=>$folk->id, 
+        $user = auth()->user();
+
+        $partner = Partner::create([
+            'status'=>$request->status, 
+            'folk_id'=>$user->folk->id, 
         ]);
+
+        for ($i=0; $i < count($request->experiences); $i++) {
+            $experience = Experience::create([
+                'task'=>$request->task, 
+                'from'=>$request->from, 
+                'to'=>$request->to, 
+                'ongoing'=>$request->ongoing, 
+                'employer'=>$request->employer, 
+                'responsibility'=>$request->responsibility, 
+                'attachment'=>$request->attachment, 
+                'partner_id'=>$partner->id, 
+            ]);
+        }
+
+        for ($i=0; $i < count($request->experiences); $i++) {
+            $formation = Formation::create([
+                'designation'=>$request->designation, 
+                'from'=>$request->from, 
+                'to'=>$request->to, 
+                'ongoing'=>$request->ongoing, 
+                'institution'=>$request->institution, 
+                'subjects'=>$request->subjects, 
+                'country'=>$request->country, 
+                'city'=>$request->city, 
+                'attachment'=>$request->attachment, 
+                'partner_id'=>$partner->id, 
+            ]);
+        }
+
+        for ($i=0; $i < count($request->formations); $i++) {
+            $formation = Formation::create([
+                'designation'=>$request->designation, 
+                'from'=>$request->from, 
+                'to'=>$request->to, 
+                'ongoing'=>$request->ongoing, 
+                'institution'=>$request->institution, 
+                'subjects'=>$request->subjects, 
+                'country'=>$request->country, 
+                'city'=>$request->city, 
+                'attachment'=>$request->attachment, 
+                'partner_id'=>$partner->id, 
+            ]);
+        }
+
+        for ($i=0; $i < count($request->skills); $i++) {
+            $formation = Formation::create([
+                'name'=>$request->designation, 
+                'description'=>$request->from,
+                'partner_id'=>$partner->id,  
+            ]);
+        }
+
+        $partner->sync($request->charges);
     }
 
     /**

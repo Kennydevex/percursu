@@ -64,12 +64,12 @@
                         </v-flex>
 
                         <v-flex xs6>
+
                           <v-text-field
                             v-model="formData.password"
                             prepend-icon="mdi-lock"
                             name="password"
                             label="Palavra Passe"
-                            id="password"
                             type="password"
                             ref="password"
                             v-validate="'required|min:8'"
@@ -83,7 +83,6 @@
                             v-model="formData.password_confirmation"
                             name="password"
                             label="Confirmar Palavra Passe"
-                            id="password"
                             type="password"
                             v-validate="'required|confirmed:password'"
                             data-vv-name="password_confirmation"

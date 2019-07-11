@@ -2,7 +2,7 @@ export function init(store, router) {
     router.beforeEach((to, from, next) => {
         const authUser = store.state.authentication.authUser
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-        const admin = to.matched.some(record => record.meta.admin)
+        const roles = to.matched.some(record => record.meta.roles)
 
         if (authUser) {
             axios.defaults.headers.common = {

@@ -16,7 +16,7 @@
     <v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
       <v-btn icon large flat slot="activator">
         <v-avatar size="30px">
-          <img :src="'images/users/account.svg'" alt="Estefanio Silva"/>
+          <img :src="`/images/users/avatars/${authUser.folk.avatar}`" alt="Estefanio Silva"/>
         </v-avatar>
       </v-btn>
       <v-list class="pa-0">
@@ -47,7 +47,7 @@ export default {
           href: '#',
           title: 'Perfil',
           click: (e) => {
-            console.log(e);
+            this.$router.push({ name: "back-perfil" });
           }
         },
         {
@@ -77,10 +77,8 @@ export default {
       ],
     }
   },
- 
 
   methods: {
-
     logout: function () {
       // this.$store.commit('logout')
       // this.$router.push('/login')

@@ -5,44 +5,62 @@ const Menu = [
     }, {
         title: 'Dashboard',
         group: 'general',
-        icon: 'mdi-monitor-dashboard',
+        icon: 'mdi-view-dashboard-variant',
         name: 'dashboard',
-    }, 
+    },
 
     // ===============================================
     {
-        header: 'Aplicação e Conteúdos'
-    }, 
+        header: 'Serviços do Percursu'
+    },
+    {
+        title: 'Percursu',
+        group: 'cms',
+        icon: 'mdi-map-marker-path',
+        items: [{
+            name: 'list-partners',
+            title: 'Parceiros',
+            component: 'list-partners'
+        }, {
+            name: 'companies',
+            title: 'Empresas',
+            component: 'companies'
+        } 
+        ]
+    },
+
+    {
+        header: 'CMS'
+    },
     {
         title: 'Gestão de Conteúdos',
         group: 'cms',
-        icon: 'mdi-newspaper',
+        icon: 'mdi-application',
         items: [{
-                name: 'articles',
-                title: 'Artigos',
-                component: 'articles'
-            }, {
-                name: 'categories',
-                title: 'Categorias',
-                component: 'categories'
-            }, {
-                name: 'tags',
-                title: 'Marcadores',
-                component: 'tags'
-            },
+            name: 'list-posts',
+            title: 'Publicações',
+            component: 'list-posts'
+        }, {
+            name: 'categories',
+            title: 'Categorias',
+            component: 'categories'
+        }, {
+            name: 'tags',
+            title: 'Marcadores',
+            component: 'tags'
+        },
         ]
-    }, 
+    },
     {
         header: 'Sistema'
     }, {
         title: 'Sistema',
         group: 'system',
-        component: 'system',
         icon: 'mdi-tune',
         items: [{
-            name: 'users',
+            name: 'list-users',
             title: 'Utilizadores',
-            component: 'users'
+            component: 'list-users'
         }, {
             name: 'roles',
             title: 'Funções',
@@ -51,7 +69,7 @@ const Menu = [
             name: 'permissions',
             title: 'Permissóes',
             component: 'permissions'
-        }, ]
+        },]
     },
     {
         divider: true

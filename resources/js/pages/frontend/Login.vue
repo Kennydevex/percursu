@@ -47,7 +47,6 @@
                             :type="passIcon ? 'password' : 'text'"
                             name="password"
                             label="Password"
-                            id="password"
                             data-vv-name="password"
                             :error-messages="errors.collect('password')"
                           ></v-text-field>
@@ -90,7 +89,7 @@
                   <v-btn icon>
                     <v-icon color="light-blue">mdi-google</v-icon>
                   </v-btn>
-                  <v-btn @click="authenticate()" block color="primary">Login</v-btn>
+                  <v-btn @click="authenticate()" block color="primary">Entrar</v-btn>
                 </div>
               </v-card>
             </v-flex>

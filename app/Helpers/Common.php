@@ -40,24 +40,15 @@ class Common
     return $entity;
   }
 
-  // public static function storeImage($imageName, $article, $description)
-  // {
-  //   $image = new ImageFile();
-  //   $image->name = $imageName;
-  //   $image->description = $description;
-  //   $image->article()->associate($article);
-  //   $image->save();
-  // }
-
-  // public static function storeLocalFile($requestImage, $filePath)
-  // {
-  //   if ($requestImage) {
-  //     $image = $requestImage;
-  //     $imageName = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-  //     Image::make($requestImage)->save(public_path($filePath) . $imageName);
-  //     return $imageName;
-  //   }
-  // }
+  public static function storeLocalFile($requestImage, $filePath)
+  {
+    if ($requestImage) {
+      $image = $requestImage;
+      $imageName = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+      Image::make($requestImage)->save(public_path($filePath) . $imageName);
+      return $imageName;
+    }
+  }
 
 
 //Pessoais

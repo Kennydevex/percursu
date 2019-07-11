@@ -2,7 +2,8 @@
 
 namespace Percursu\Http\Controllers\System;
 
-use Percursu\Models\System\User;
+use User;
+use Common;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -24,7 +25,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $folk = Common::createFolk($request);
+        $user = User::create([
+            'email'=>$request->email, 
+            'username'=>$request->username, 
+            'password'=>bcrypt($request->password), 
+            'status'=>$request->status,
+            'folk_id'=>$folk->id, 
+        ]);
     }
 
     /**
