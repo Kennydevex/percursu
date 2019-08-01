@@ -13,13 +13,17 @@ class Experience extends Model
         'from',
         'to',
         'ongoing',
-        'employer',
+        'employer', 
         'responsibility',
         'attachment'
     ];
 
     public function partner(){return $this->belongsTo('Partner');}
 
-    public function getStatusAttribute($value){if ($value) {return true;}return false;}
+    protected $casts = ['from' => 'datetime:Y-m', 'to' => 'datetime:Y-m',];
+
+    // public function setDateAttribute( $value ) {
+    //     $this->attributes['date'] = (new Carbon($value))->format('d/m/y');
+    // }
 
 }

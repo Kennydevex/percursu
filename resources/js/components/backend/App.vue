@@ -14,27 +14,30 @@
 </template>
 
 <script>
-import AppDrawer from '@pback/AppDrawer'
-import AppToolbar from '@pback/AppToolbar'
-import PageHeader from '@pback/PageHeader'
-import AppFooter from '@pback/AppFooter'
-import AppFab from '@pback/AppFab'
+import AppDrawer from "@pback/AppDrawer";
+import AppToolbar from "@pback/AppToolbar";
+import PageHeader from "@pback/PageHeader";
+import AppFooter from "@pback/AppFooter";
+import AppFab from "@pback/AppFab";
 export default {
   components: {
     AppDrawer,
     AppToolbar,
     PageHeader,
     AppFab,
-    AppFooter,
-  },
-}
+    AppFooter
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
-.setting-fab
-  top:50%!important;
-  right:0;
-  border-radius:0
-  .page-wrapper
-    min-height:calc(100vh - 64px - 50px - 81px );
-    </style>
+.setting-fab {
+  top: 50% !important;
+  right: 0;
+  border-radius: 0;
+
+  .page-wrapper {
+    min-height: calc(100vh - 64px - 50px - 81px);
+  }
+}
+</style>

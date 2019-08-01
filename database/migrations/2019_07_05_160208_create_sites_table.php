@@ -17,9 +17,9 @@ class CreateSitesTable extends Migration
             $table->bigIncrements('id');
             $table->string('link', 150)->unique();
             $table->mediumText('description')->nullable();
-            $table->unsignedBigInteger('folk_id');
+             $table->unsignedBigInteger('partner_id');
 
-            $table->foreign('folk_id')->references('id')->on('folks')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('partner_id')->references('id')->on('partners')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

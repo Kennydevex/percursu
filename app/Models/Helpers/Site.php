@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Site extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['link', 'description'];
+    protected $fillable = ['link', 'description', 'partner_id'];
 
-    public function folk(){return $this->belongsTo('Folk');}
+    public function partner(){return $this->belongsTo('Partner');}
 }

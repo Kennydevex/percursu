@@ -1,9 +1,13 @@
 <?php
 
-namespace Percursu\Http\Controllers\CMS;
-use Percursu\Http\Controllers\Controller;
+namespace Percursu\Http\Controllers\Percursu;
+
 use Charge;
+use ChargeCollection;
 use Illuminate\Http\Request;
+use Percursu\Http\Controllers\Controller;
+use Percursu\Http\Requests\Percursu\ChargeRequest;
+
 
 class ChargeController extends Controller
 {
@@ -14,18 +18,47 @@ class ChargeController extends Controller
      */
     public function index()
     {
-        //
+        $charges = Charge::all();
+        return new ChargeCollection($charges);
     }
 
-     /**
+    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ChargeRequest $request)
     {
-        //gfdfg
+        //    $validator = Validator::make($request->all(), [
+        //        'name' => 'required|unique:charges',
+        //        'description' => 'nullable',
+        //    ]);
+
+        //    if ($validator->fails()) {
+        //         return response()->json([
+        //         'error' => $validator->messages()->first(),
+        //         ], 422);
+        //    }
+
+        // $data = $this->validate($request, [
+        //     'name' => 'required|unique:charges',
+        //     'description' => 'nullable',
+        // ]);
+        // $charge = Charge::create($data);
+
+
+        $charge = Charge::create(
+            [
+                'name' => $request->name,
+                'description' => $request->description,
+            ]
+        );
+
+        return response()->json(
+            ['msg' => 'Registo efetuado com secesso'],
+            201
+        );
     }
 
     /**
@@ -35,17 +68,6 @@ class ChargeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Charge $charge)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Percursu\Models\Percursu\Charge  $charge
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Charge $charge)
     {
         //
     }
@@ -65,7 +87,7 @@ class ChargeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Percursu\Models\Percursu\Charge  $charge
+     * @param \Percursu\Models\Percursu\Charge $charge
      * @return \Illuminate\Http\Response
      */
     public function destroy(Charge $charge)

@@ -13,8 +13,8 @@
           <v-btn :to="{name: 'empregos'}" class="pa-2" round flat>Empregos</v-btn>
           <v-btn :to="{name: 'formacoes'}" class="pa-2" round flat>Formações</v-btn>
           <template v-if="!authUser">
-            <v-btn :to="{name: 'login'}" fab class="pa-2" flat>
-              <v-icon left>mdi-login</v-icon>
+            <v-btn  :to="{name: 'login'}" flat icon depressed>
+              <v-icon small>mdi-login</v-icon>
             </v-btn>
           </template>
 
@@ -26,7 +26,7 @@
               offset-y
               origin="center center"
               :nudge-width="100"
-              transition="scale-transition"
+              transition="scale-transition" 
               flat
             >
               <v-btn icon small flat slot="activator">

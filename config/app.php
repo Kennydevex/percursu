@@ -8,7 +8,7 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
     'asset_url' => env('ASSET_URL', null),
     'timezone' => 'UTC',
-    'locale' => 'en',
+    'locale' => 'pt',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'key' => env('APP_KEY'),
@@ -133,6 +133,11 @@ return [
         'Skill' => Percursu\Models\Percursu\Skill::class,
         'Company' => Percursu\Models\Percursu\Company::class,
 
+
+        'ChargeCollection' => Percursu\Http\Resources\Percursu\ChargeCollection::class,
+        'ChargeResource' => Percursu\Http\Resources\Percursu\Charge::class,
+        'PartnerCollection' => Percursu\Http\Resources\Percursu\PartnerCollection::class,
+        'PartnerResource' => Percursu\Http\Resources\Percursu\Partner::class,
 
 
 

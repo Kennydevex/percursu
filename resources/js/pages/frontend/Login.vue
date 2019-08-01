@@ -80,15 +80,27 @@
 
                   <v-spacer></v-spacer>
 
-                  <v-btn icon medium>
-                    <v-icon color="blue" medium>mdi-facebook-box</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon color="red">mdi-twitter-box</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon color="light-blue">mdi-google</v-icon>
-                  </v-btn>
+                  <v-tooltip bottom>
+                    <v-btn icon slot="activator">
+                      <v-icon color="light-blue">mdi-linkedin-box</v-icon>
+                    </v-btn>
+                    <span>Autentica-se com sua conta de Linkedin</span>
+                  </v-tooltip> 
+
+                   <v-tooltip bottom>
+                    <v-btn icon slot="activator">
+                      <v-icon color="blue" medium>mdi-facebook-box</v-icon>
+                    </v-btn>
+                    <span>Autentica-se com sua conta de Facebook</span>
+                  </v-tooltip>
+
+                   <v-tooltip bottom>
+                    <v-btn icon slot="activator">
+                      <v-icon color="red">mdi-twitter-box</v-icon>
+                    </v-btn>
+                    <span>Autentica-se com sua conta de Twitter</span>
+                  </v-tooltip>
+
                   <v-btn @click="authenticate()" block color="primary">Entrar</v-btn>
                 </div>
               </v-card>
@@ -108,8 +120,8 @@ export default {
     return {
       sending: false,
       formData: {
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         remember_token: false
       },
       passIcon: true,

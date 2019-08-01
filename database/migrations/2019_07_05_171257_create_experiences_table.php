@@ -17,11 +17,11 @@ class CreateExperiencesTable extends Migration
             $table->bigIncrements('id');
             $table->string('task', 150);
             $table->mediumText('description')->nullable();
-            $table->date('from');
-            $table->date('to')->nullable();
+            $table->string('from', 10);
+            $table->string('to', 10)->nullable();
             $table->boolean('ongoing')->nullable()->default(false);
             $table->string('employer', 120)->nullable();
-            $table->multiLineString('responsibility')->nullable();
+            $table->mediumText('responsibility')->nullable();
             $table->string('attachment', 100)->nullable()->default('default.svg');
              $table->unsignedBigInteger('partner_id');
             

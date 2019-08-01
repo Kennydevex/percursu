@@ -63,7 +63,7 @@
             prevEl: '.swiper-button-prev'
           }
         }
-      }
+      } 
     }
   }
 </script>

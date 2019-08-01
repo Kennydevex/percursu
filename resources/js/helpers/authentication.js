@@ -1,10 +1,10 @@
 export function login(credentials) {
     return new Promise(function (resolve, reject) {
         axios.post('/api/v1/auth/login', credentials).then((response) => {
-            resolve(response.data)
+            resolve(response.data);
         }).catch((err) => {
-            reject(err.response.data.error)
-        })
+            reject(err.response.data.error);
+        });
     });
 }
 
@@ -19,9 +19,9 @@ export function login(credentials) {
 // }
 
 export function getAuthLocalUser() {
-    const userStringData = localStorage.getItem("user")
+    const userStringData = localStorage.getItem("user");
     if (!userStringData) {
         return null;
     }
-    return JSON.parse(userStringData)
+    return JSON.parse(userStringData);
 }

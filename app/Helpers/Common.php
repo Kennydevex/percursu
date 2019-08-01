@@ -55,6 +55,20 @@ class Common
 
   public static function createFolk($request)
   {
+    
+    // $folk = Folk::findOrfail($id);
+    // if ($folk) {
+    //   $folk = Folk::update([
+    //     'name'=>$request->name, 
+    //     'lastname'=>$request->lastname,
+    //     'gender'=>$request->gender, 
+    //     'avatar'=>$request->avatar, 
+    //     'ic'=>$request->ic, 
+    //     'nif'=>$request->nif, 
+    //     'birthdate'=>$request->birthdate, 
+    //   ]);
+    //   return $folk;
+    // }
     $folk = Folk::create([
       'name'=>$request->name, 
       'lastname'=>$request->lastname,
@@ -63,7 +77,7 @@ class Common
       'ic'=>$request->ic, 
       'nif'=>$request->nif, 
       'birthdate'=>$request->birthdate, 
-      ]);
+    ]);
     return $folk;
   }
   

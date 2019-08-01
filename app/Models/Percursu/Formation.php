@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Formation extends Model
 {
     public $timestamps = false;
+
+    protected $dateFormat = 'y-m';
     
     protected $fillable = [
         'designation',
@@ -23,4 +25,9 @@ class Formation extends Model
 
     public function partner(){return $this->belongsTo('Partner');}
 
+    protected $casts = ['from' => 'datetime:Y-m', 'to' => 'datetime:Y-m',];
+
+    // public function setDateAttribute( $value ) {
+    //     $this->attributes['date'] = (new Carbon($value))->format('d/m/y');
+    // }
 }
