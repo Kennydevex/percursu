@@ -138,6 +138,14 @@ return [
         'ChargeResource' => Percursu\Http\Resources\Percursu\Charge::class,
         'PartnerCollection' => Percursu\Http\Resources\Percursu\PartnerCollection::class,
         'PartnerResource' => Percursu\Http\Resources\Percursu\Partner::class,
+        'UserCollection' => Percursu\Http\Resources\System\UserCollection::class,
+        'UserResource' => Percursu\Http\Resources\System\User::class,
+
+        'CategoryCollection' => Percursu\Http\Resources\Helpers\CategoryCollection::class,
+        'CategoryResource' => Percursu\Http\Resources\Helpers\Category::class,
+
+        'TagCollection' => Percursu\Http\Resources\CMS\TagCollection::class,
+        'TagResource' => Percursu\Http\Resources\CMS\Tag::class,
 
 
 

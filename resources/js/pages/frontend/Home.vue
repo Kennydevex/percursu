@@ -1,47 +1,57 @@
 <template>
   <div>
-    <section>
-      <app-slider />
-    </section>
+    <app-slider />
 
-    <section>
-      <app-missions />
-    </section>
+    <app-missions />
 
-    <section>
-      <app-formados />
-    </section>
-    <v-card id="create">
-      <v-speed-dial
-        v-model="fab"
-        bottom="bottom"
-        right="right"
-        direction="top"
-        transition="slide-y-reverse-transition"
+
+    <app-parralax />
+
+    <app-map />
+    <template v-if="authUser">
+      <v-btn
+        :to="{name: 'create-partner'}"
+        color="primary"
+        dark
+        medium
+        fixed
+        bottom
+        right
+        fab
+        class="mb-5"
+        v-if="authUser.folk.partner"
       >
-        <template v-slot:activator>
-          <v-btn v-model="fab" color="blue darken-2" dark fab>
-            <v-icon>mdi-account</v-icon>
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </template>
-        <v-btn fab dark small color="green">
-          <v-icon>mdi-account-edit</v-icon>
-        </v-btn>
-        <v-btn fab dark small color="indigo">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-        <v-btn fab dark small color="red">
-          <v-icon>mdi-trash-can</v-icon>
-        </v-btn>
-      </v-speed-dial>
-    </v-card>
+        <v-icon>mdi-account-edit</v-icon>
+      </v-btn>
+
+      <v-btn
+        :to="{name: 'create-partner'}"
+        color="primary"
+        dark
+        medium
+        fixed
+        bottom
+        right
+        fab
+        class="mb-5"
+        v-if="!authUser.folk.partner"
+      >
+        <v-icon>mdi-account-plus</v-icon>
+      </v-btn>
+    </template>
+
+    <template v-else>
+      <v-btn :to="{name: 'login'}" color="primary" dark medium fixed bottom right fab class="mb-5">
+        <v-icon>mdi-login-variant</v-icon>
+      </v-btn>
+    </template>
   </div>
 </template>
 <script>
 import AppSlider from "@pfront/AppSlider";
+import AppParralax from "@pfront/AppParralax";
 import AppMissions from "@pfront/AppMissions";
-import AppFormados from "@pfront/AppFormados";
+import AppMap from "@pfront/AppMap";
 export default {
   data() {
     return {
@@ -52,7 +62,8 @@ export default {
   components: {
     AppSlider,
     AppMissions,
-    AppFormados
+    AppMap,
+    AppParralax
   }
 };
 </script>

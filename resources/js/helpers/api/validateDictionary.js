@@ -1,8 +1,12 @@
+// jshint esversion:6
+
 export default {
   attributes: {
     name: 'Nome',
     lastname: 'Apelido',
     username: 'Utilizador',
+    identification_card: 'BI',
+    nif: 'NIF',
     password: 'Palavra passe',
     password_confirmation: 'Confirmação',
     display_name: 'Rótulo',
@@ -87,4 +91,4 @@ export default {
       required: () => "É obrigatório escolher uma entidade para uma categoria"
     },
   }
-}
+};

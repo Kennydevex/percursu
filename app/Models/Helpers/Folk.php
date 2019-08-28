@@ -22,7 +22,10 @@ class Folk extends Model
 
     public function partner(){return $this->hasOne('Partner');}
 
-    public function addresses(){return $this->hasMany('Address');}
+    public function address()
+    {
+        return $this->hasOne('Address');
+    }
 
     public function phones(){return $this->hasMany('Phone');}
 
@@ -36,7 +39,7 @@ class Folk extends Model
         return $this->name . ' ' . $this->lastname;
     }
 
-    public function getGenderAttribute($value){if ($value=='f') {return "Feminino";}if ($value=='m') {return "Masculino";}return "Não definido";}
+    // public function getGenderAttribute($value){if ($value=='f') {return "Feminino";}if ($value=='m') {return "Masculino";}return "Não definido";}
 
     public function setIcAttribute($value) {
         if ( empty($value) ) {$this->attributes['ic'] = NULL;} 

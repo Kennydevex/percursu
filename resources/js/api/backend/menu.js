@@ -1,3 +1,4 @@
+// jshint esversion:6
 const Menu = [
     // ===============================================
     {
@@ -15,17 +16,17 @@ const Menu = [
     },
     {
         title: 'Percursu',
-        group: 'cms',
+        group: 'percursu',
         icon: 'mdi-map-marker-path',
         items: [{
             name: 'list-partners',
             title: 'Parceiros',
             component: 'list-partners'
         }, {
-            name: 'companies',
+            name: 'list-companies',
             title: 'Empresas',
-            component: 'companies'
-        } 
+            component: 'list-companies'
+        }
         ]
     },
 
@@ -33,21 +34,22 @@ const Menu = [
         header: 'CMS'
     },
     {
-        title: 'Gestão de Conteúdos',
+        title: 'Conteúdos',
         group: 'cms',
         icon: 'mdi-application',
         items: [{
             name: 'list-posts',
             title: 'Publicações',
             component: 'list-posts'
-        }, {
-            name: 'categories',
+        },
+        {
+            name: 'list-categories',
             title: 'Categorias',
-            component: 'categories'
+            component: 'list-categories'
         }, {
-            name: 'tags',
+            name: 'list-tags',
             title: 'Marcadores',
-            component: 'tags'
+            component: 'list-tags'
         },
         ]
     },
@@ -62,13 +64,13 @@ const Menu = [
             title: 'Utilizadores',
             component: 'list-users'
         }, {
-            name: 'roles',
+            name: 'list-roles',
             title: 'Funções',
-            component: 'roles'
+            component: 'list-roles'
         }, {
-            name: 'permissions',
+            name: 'list-permissions',
             title: 'Permissóes',
-            component: 'permissions'
+            component: 'list-permissions'
         },]
     },
     {
@@ -93,6 +95,7 @@ const Menu = [
             title: 'Geral',
             icon: 'help',
             name: 'general',
+            component: 'general'
         }]
     },
     // ===============================================

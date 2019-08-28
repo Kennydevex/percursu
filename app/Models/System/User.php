@@ -20,12 +20,12 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'email', 
-        'username', 
-        'password', 
+        'email',
+        'username',
+        'password',
         'status',
-        'category_id', 
-        'folk_id', 
+        'category_id',
+        'folk_id',
     ];
 
     /**
@@ -42,17 +42,51 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = ['email_verified_at' => 'datetime',];
 
-    public function getJWTIdentifier(){return $this->getKey();}
-    
-    public function getJWTCustomClaims(){return [];}
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
 
-    public function folk(){return $this->belongsTo('Folk');}
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
-    public function posts(){return $this->hasMany('Post');}
+    public function folk()
+    {
+        return $this->belongsTo('Folk');
+    }
 
-    public function companies(){return $this->hasMany('Company');}
+    public function posts()
+    {
+        return $this->hasMany('Post');
+    }
 
-    public function getStatusAttribute($value){if ($value) {return true;}return false;}
+    public function companies()
+    {
+        return $this->hasMany('Company');
+    }
 
-    public function setEmailAttribute($value){$this->attributes['email'] = strtolower($value);}
+    public function permissions()
+    {
+        return $this->belongsToMany('Permission');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('Role');
+    }
+
+    public function getStatusAttribute($value)
+    {
+        if ($value) {
+            return true;
+        }
+        return false;
+    }
+
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
 }

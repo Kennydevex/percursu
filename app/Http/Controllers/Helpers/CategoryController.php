@@ -4,6 +4,9 @@ namespace Percursu\Http\Controllers\Helpers;
 
 use Percursu\Http\Controllers\Controller;
 use Category;
+use Common;
+use CategoryCollection;
+use CategoryResource;
 use Illuminate\Http\Request;
 
 
@@ -17,7 +20,10 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return response()->Json(['CATEGORY' => $categories], 200);
+        $categories->each(function ($categories) {
+            $categories->entity;
+        });
+        return new CategoryCollection($categories);
     }
 
     /**
@@ -28,13 +34,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-         $category = Category::create([
+        $entity = Common::findOrCreateEntity($request->entity);
+        $category = Category::create([
             'name' => $request->name,
             'description' => $request->description,
-            'entity_id' => $request->entity,
+            'entity_id' => $entity->id,
         ]);
-        return response()->Json(['msg' => "Operação efetuada com sucesso"], 200);
-
+        return response()->Json(['msg' => "Categoria registada com sucesso"], 200);
     }
 
     /**
@@ -45,7 +51,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $category=Category::findOrfail($category);
+        $category = Category::findOrfail($category);
         dd($category);
     }
 
@@ -58,7 +64,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $category=Category::findOrfail($category);
+        $category = Category::findOrfail($category);
         // $category->update([
         //     'name' => $request->name,
         //     'description' => $request->description,
@@ -72,8 +78,21 @@ class CategoryController extends Controller
      * @param  \Percursu\Models\Helpers\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::findOrfail($id);
+        if ($category->posts) {
+            return response()->Json([
+                'msg' => "Categoria vinculada à publicação, não pode ser eliminada",
+                'can' => false
+            ], 200);
+        }
+
+        $category->delete();
+        return response()->Json([
+            'msg' => "Categoria eliminada com sucesso",
+            'can' => true
+
+        ], 200);
     }
 }

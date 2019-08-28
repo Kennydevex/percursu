@@ -2,11 +2,18 @@
 
 namespace Percursu\Http\Controllers\CMS;
 
-use Percursu\Models\Percursu\Post;
+use Percursu\Http\Controllers\Controller;
+use Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +42,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = Post::create([
+            'title' => $request->title,
+            'summary' => $request->summary,
+            'body' => $request->body,
+            'image' => $request->image,
+            'published' => $request->published,
+            'featured' => $request->featured,
+            'user_id' => auth()->user()->id,
+            'category_id' => $request->category,
+        ]);
+
+        if (count($request->tags) > 0) {
+            $post->tags()->sync($request->tags);
+        }
+
+        return response()->json([
+            'msg' => 'Publicação registado com sucesso',
+        ]);
     }
 
     /**

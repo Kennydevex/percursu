@@ -5,17 +5,17 @@
         <v-container fluid fill-height>
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
-              <v-card class="elevation-1 pa-3">
+              <v-card class="elevation-1 pa-3" width="800">
                 <v-card-text>
                   <div class="layout column align-center">
-                    <img :src="'images/geral/logo.svg'" alt="percursu" width="120" height="120" />
+                    <img :src="'images/geral/logo.svg'" alt="percursu" width="100" height="100" />
                     <h1 class="flex my-4 primary--text">Percursu</h1>
                     <small>Criar uma conta de utilizador</small>
                   </div>
                   <v-form>
-                    <v-container grid-list-sm ma-0 pa-0>
+                    <v-container grid-list-md ma-0 pa-0>
                       <v-layout row wrap>
-                        <v-flex xs6>
+                        <v-flex xs12 md6>
                           <v-text-field
                             prepend-icon="mdi-account"
                             v-model="formData.name"
@@ -27,7 +27,7 @@
                             :error-messages="errors.collect('name')"
                           ></v-text-field>
                         </v-flex>
-                        <v-flex xs6>
+                        <v-flex xs12 md6>
                           <v-text-field
                             v-model="formData.lastname"
                             name="lastname"
@@ -39,7 +39,7 @@
                           ></v-text-field>
                         </v-flex>
 
-                        <v-flex xs6>
+                        <v-flex xs12 md6>
                           <v-text-field
                             v-model="formData.email"
                             prepend-icon="mdi-email"
@@ -51,7 +51,7 @@
                             :error-messages="errors.collect('email')"
                           ></v-text-field>
                         </v-flex>
-                        <v-flex xs6>
+                        <v-flex xs12 md6>
                           <v-text-field
                             v-model="formData.username"
                             name="username"
@@ -63,8 +63,7 @@
                           ></v-text-field>
                         </v-flex>
 
-                        <v-flex xs6>
-
+                        <v-flex xs12 md6>
                           <v-text-field
                             v-model="formData.password"
                             prepend-icon="mdi-lock"
@@ -78,7 +77,7 @@
                           ></v-text-field>
                         </v-flex>
 
-                        <v-flex xs6>
+                        <v-flex xs12 md6>
                           <v-text-field
                             v-model="formData.password_confirmation"
                             name="password"
@@ -101,31 +100,18 @@
                   </v-form>
                 </v-card-text>
                 <div class="login-btn">
-                  <v-tooltip bottom>
-                    <v-btn
-                      :to="{name: 'login'}"
-                      small
-                      flat
-                      round
-                      slot="activator"
-                      dark
-                      color="primary"
-                    >
-                      <v-icon small left dark>mdi-login</v-icon>Login
-                    </v-btn>
-                    <span>Já tem uma conta? Clique para autenticar!!</span>
-                  </v-tooltip>
-                  <v-tooltip bottom>
-                    <v-btn :to="{name:'home'}" slot="activator" icon small flat>
-                      <v-icon color="primary" small>mdi-keyboard-backspace</v-icon>
-                    </v-btn>
-                    <span>Voltar à página principal</span>
-                  </v-tooltip>
+                  <v-btn :to="{name: 'login'}" small text rounded dark color="primary">
+                    <v-icon small left dark>mdi-login</v-icon>Entrar
+                  </v-btn>
+
+                  <v-btn :to="{name:'home'}" icon x-small text dark>
+                    <v-icon color="primary" small dark>mdi-home</v-icon>
+                  </v-btn>
 
                   <v-spacer></v-spacer>
 
-                  <v-btn icon medium>
-                    <v-icon color="blue" medium>mdi-facebook-box</v-icon>
+                  <v-btn icon x-smal>
+                    <v-icon color="blue" x-smal>mdi-facebook-box</v-icon>
                   </v-btn>
                   <v-btn icon>
                     <v-icon color="red">mdi-twitter-box</v-icon>
@@ -133,7 +119,7 @@
                   <v-btn icon>
                     <v-icon color="light-blue">mdi-google</v-icon>
                   </v-btn>
-                  <v-btn @click="register()" block color="primary">Registar</v-btn>
+                  <v-btn rounded @click="register()" block color="primary">Registar</v-btn>
                 </div>
               </v-card>
             </v-flex>
@@ -195,7 +181,7 @@ export default {
 
 <style lang="css">
 .back {
-  background-image: url(/images/geral/loginback.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260);
+  background-image: url(/images/geral/loginback.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=600&w=1260);
   background-size: cover;
 }
 #inspire {

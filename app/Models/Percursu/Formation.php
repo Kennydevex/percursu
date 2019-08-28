@@ -8,8 +8,6 @@ class Formation extends Model
 {
     public $timestamps = false;
 
-    protected $dateFormat = 'y-m';
-    
     protected $fillable = [
         'designation',
         'from',
@@ -20,12 +18,23 @@ class Formation extends Model
         'level',
         'country',
         'city',
-        'attachment'
+        'attachment',
+        'partner_id',
     ];
 
-    public function partner(){return $this->belongsTo('Partner');}
+    public function partner()
+    {
+        return $this->belongsTo('Partner');
+    }
 
-    protected $casts = ['from' => 'datetime:Y-m', 'to' => 'datetime:Y-m',];
+
+    public function getOngoingAttribute($value)
+    {
+        if ($value) {
+            return true;
+        }
+        return false;
+    }
 
     // public function setDateAttribute( $value ) {
     //     $this->attributes['date'] = (new Carbon($value))->format('d/m/y');

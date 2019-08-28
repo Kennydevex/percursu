@@ -1,151 +1,107 @@
 <template>
-  <v-footer height="auto">
-    <v-card flat tile class="flex">
-      <v-card-text class="flex teal darken-3 white--text text-xs-center">
-        <v-btn v-for="icon in icons" :key="icon" class="mx-3 white--text" icon>
+  <v-footer app absolute padless>
+    <v-card-text flat tile width="100%" class="pa-0 text-center">
+      <v-card-text class="cyan darken-4 white--text">
+        <v-btn dark v-for="icon in icons" :key="icon" class="mx-4" icon>
           <v-icon size="24px">{{ icon }}</v-icon>
         </v-btn>
       </v-card-text>
 
+      <v-divider></v-divider>
       <v-card-text class="blue-grey darken-3 white--text">
-        <v-container grid-list-xs fluid>
-          <v-layout row wrap>
-            <v-flex xs12 sm6 md3>
-              <v-card flat tile color="transparent" class="grey--text text--lighten-3">
+        <v-container grid-list-xl>
+          <v-layout row wrap justify-space-around align-start fill-height>
+            <v-flex xs12 md4>
+              <v-card-text color="transparent" tile flat>
                 <v-card-title
-                  class="teal--text text--lighten-3 justify-center title font-weight-light text-uppercase"
+                  class="justify-center grey--text text--lighten-3"
                   primary-title
                 >Subscrição</v-card-title>
-                <v-card-text>
-                  <div class="text-md-left text-sm-center">
-                    <v-text-field
-                      box
-                      name="name"
-                      label="Subscreva para notificações"
-                      id="id"
-                      color="white"
-                      append-icon="mdi-send-circle"
-                      @click:append="test"
-                    ></v-text-field>
-                    <v-divider></v-divider>
-                    <v-subheader class="grey--text text--lighten-2">Autenticação</v-subheader>
-                    <v-btn small fab flat color="grey lighten-3"><v-icon>mdi-login</v-icon></v-btn>
-                    <v-btn small fab flat color="grey lighten-3"><v-icon>mdi-google</v-icon></v-btn>
-                    <v-btn small fab flat color="grey lighten-3"><v-icon>mdi-linkedin</v-icon></v-btn>
-                  </div>
+                <v-divider dark></v-divider>
+                <v-card-text class="px-0 grey--text text--lighten-3">
+                  <v-layout row wrap>
+                    <v-flex xs12>
+                      <v-card elevation-4>
+                        <v-card-text>
+                          <v-text-field
+                            filled
+                            outlined
+                            shaped
+                            name="name"
+                            label="Introduza o seu correio eletrónico"
+                            id="id"
+                            hint="Subscreva para receber notificações em primeira mão"
+                            persistent-hint
+                            append-outer-icon="mdi-send"
+                            @click:append-outer="test"
+                          ></v-text-field>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-subheader class="grey--text text--lighten-2 justify-center">Autenticação</v-subheader>
+                      <v-btn small fab text color="grey lighten-3">
+                        <v-icon>mdi-login</v-icon>
+                      </v-btn>
+                      <v-btn small fab text color="grey lighten-3">
+                        <v-icon>mdi-google</v-icon>
+                      </v-btn>
+                      <v-btn small fab text color="grey lighten-3">
+                        <v-icon>mdi-linkedin</v-icon>
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
                 </v-card-text>
-              </v-card>
+              </v-card-text>
             </v-flex>
-
-            <v-flex xs12 sm6 md3>
-              <v-card class="grey--text text--lighten-3" flat tile color="transparent">
+            <v-flex xs12 md4>
+              <v-card-text color="transparent" tile flat>
                 <v-card-title
-                  class="teal--text text--lighten-3 justify-center title font-weight-light text-uppercase"
-                  primary-title
-                >Categprias de Colaboradores</v-card-title>
-                <v-card-text>
-                  <div class="text-xs-center">
-                   <v-list class="transparent">
-                     <v-list-tile @click="" class="grey--text">
-                       <v-list-tile-title class="text-xs-center text--grey">Categoria 1</v-list-tile-title>
-                     </v-list-tile>
-                     <v-list-tile @click="" class="grey--text">
-                       <v-list-tile-title class="text-xs-center text--grey">Categoria 2</v-list-tile-title>
-                     </v-list-tile>
-                     <v-list-tile @click="" class="grey--text">
-                       <v-list-tile-title class="text-xs-center text--grey">Categoria 3</v-list-tile-title>
-                     </v-list-tile>
-                   </v-list>
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-flex>
-
-            <v-flex xs12 sm6 md3>
-              <v-card class="grey--text text--lighten-3" flat tile color="transparent">
-                <v-card-title
-                  class="teal--text text--lighten-3 justify-center title font-weight-light text-uppercase"
+                  class="justify-center grey--text text--lighten-3"
                   primary-title
                 >Subscrição</v-card-title>
-                <v-card-text>
-                  <div
-                    class="text-xs-center"
-                  >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui et est facere nihil? Hic, atque. Velit maiores facere excepturi dolore tempore possimus necessitatibus eaque consequatur saepe doloribus ipsa, quam quos.</div>
+                <v-divider dark></v-divider>
+                <v-card-text class="px-0 grey--text text--lighten-3">
+                  <v-layout row wrap>
+                    <v-flex xs12>
+                      Teste
+                    </v-flex>
+                  </v-layout>
                 </v-card-text>
-              </v-card>
+              </v-card-text>
             </v-flex>
-
-            <v-flex xs12 sm6 md3>
-              <v-card class="grey--text text--lighten-3" flat tile color="transparent">
+            <v-flex xs12 md4>
+              <v-card-text color="transparent" tile flat>
                 <v-card-title
-                  class="teal--text text--lighten-3 justify-center title font-weight-light text-uppercase"
+                  class="justify-center grey--text text--lighten-3"
                   primary-title
-                >Ligações</v-card-title>
-                <v-card-text class="text-center align-center text-justify justify-center">
-                  <div
-                    class="text-md-right text-sm-center"
-                  >
-                  <ul type="none">
-                    <li><router-link class="grey--text text--lighten-3" to="">Empresa 1</router-link></li>
-                    <li><router-link to="">Empresa 1</router-link></li>
-                    <li><router-link to="">Empresa 1</router-link></li>
-                    <li><router-link to="">Empresa 1</router-link></li>
-                    <li><router-link to="">Empresa 1</router-link></li>
-                    <li><router-link to="">Empresa 1</router-link></li>
-                  </ul>
-                 
-                  </div>
+                >Conexão</v-card-title>
+                <v-divider dark></v-divider>
+                <v-card-text class="px-0 grey--text text--lighten-3">
+                  <v-layout row wrap>
+                    <v-flex xs12>
+                      teste
+                    </v-flex>
+                  </v-layout>
                 </v-card-text>
-              </v-card>
+              </v-card-text>
             </v-flex>
           </v-layout>
         </v-container>
       </v-card-text>
 
-      <v-card-actions class="blue-grey darken-4 grey--text justify-center">
-        &copy;2019 —
-        <strong>By Estefânio Silva</strong>
-      </v-card-actions>
-    </v-card>
+      <v-card-text class="blue-grey darken-4 white--text">
+        {{ new Date().getFullYear() }} —
+        <strong>Percursu</strong>
+      </v-card-text>
+    </v-card-text>
   </v-footer>
 </template>
 
 <script>
 export default {
   data: () => ({
-    icons: [
-      "mdi-facebook",
-      "mdi-twitter",
-      "mdi-google",
-      "mdi-linkedin",
-      "mdi-instagram"
-    ],
-    rows: [
-      {
-        title: "Company Name",
-        children: [
-          "Here you can use rows and columns here to organize your footer content. Lorem ipsum dolor sit amet, consectetur adipisicing elit"
-        ]
-      },
-      {
-        title: "Products",
-        children: [
-          "MDBootstrap",
-          "MDWordPress",
-          "BrandFlow",
-          "Bootstrap Angular"
-        ]
-      },
-      {
-        title: "Useful Links",
-        children: [
-          "Your account",
-          "Become an Affiliate",
-          "Shipping Rates",
-          "Helper"
-        ]
-      }
-    ]
+    icons: ["mdi-home", "mdi-account-tie", "mdi-briefcase"]
   }),
   methods: {
     test() {

@@ -2,9 +2,14 @@
 
 namespace Percursu\Http\Controllers\System;
 
+use Percursu\Http\Controllers\Controller;
 use User;
+use UserCollection;
+use UserResource;
+use Folk;
 use Common;
 use Illuminate\Http\Request;
+use Percursu\Http\Requests\System\UserRequest;
 
 class UserController extends Controller
 {
@@ -15,25 +20,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        $users->each(function ($users) {
+            $users->folk;
+        });
+        return new UserCollection($users);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $folk = Common::createFolk($request);
-        $user = User::create([
-            'email'=>$request->email, 
-            'username'=>$request->username, 
-            'password'=>bcrypt($request->password), 
-            'status'=>$request->status,
-            'folk_id'=>$folk->id, 
-        ]);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,9 +34,28 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $folk = Common::createFolk($request);
+        $user = User::create([
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+            'status' => $request->status,
+            'folk_id' => $folk->id,
+        ]);
+
+        if (count($request->roles) > 0) {
+            $user->syncRoles($request->roles);
+        }
+
+        if (count($request->permissions) > 0) {
+            $user->syncPermissions($request->permissions);
+        }
+
+        return response()->json([
+            'msg' => 'Utilizador registado com sucesso',
+        ]);
     }
 
     /**
@@ -52,21 +64,15 @@ class UserController extends Controller
      * @param  \Percursu\Models\System\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($username)
     {
-        //
+        $user = User::whereUsername($username)->firstOrFail();
+        $user->folk;
+        $user->roles;
+        $user->permissions;
+        return new UserResource($user);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Percursu\Models\System\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -75,9 +81,28 @@ class UserController extends Controller
      * @param  \Percursu\Models\System\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $username)
     {
-        //
+        $userData = User::whereUsername($username)->firstOrFail();
+        $folk = Folk::findOrfail($userData->folk->id);
+        $folk->update([
+            'name' => $request->input('folk.name'),
+            'lastname' => $request->input('folk.lastname'),
+            'gender' => $request->input('folk.gender'),
+            'avatar' => $request->input('folk.avatar'),
+            'ic' => $request->input('folk.ic'),
+            'nif' => $request->input('folk.nif'),
+            'birthdate' => $request->input('folk.birthdate'),
+        ]);
+        $userData->update([
+            'email' => $request->email,
+            'username' => $request->username,
+            'status' => $request->status,
+        ]);
+
+        return response()->json([
+            'msg' => 'Dados do utilizador atualizado com sucesso!',
+        ]);
     }
 
     /**
@@ -86,8 +111,25 @@ class UserController extends Controller
      * @param  \Percursu\Models\System\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        $userData = User::find($id);
+        $userData->delete();
+        return response()->json([
+            'msg' => 'Utilizador eliminado com sucesso',
+
+        ]);
+    }
+
+    // My methods
+    public function changeUserActivation($id)
+    {
+        $user = User::findOrfail($id);
+        $user->status = !$user->status;
+        $user->update();
+
+        return response()->json([
+            'msg' => 'Operação efetuado do com sucesso ',
+        ]);
     }
 }

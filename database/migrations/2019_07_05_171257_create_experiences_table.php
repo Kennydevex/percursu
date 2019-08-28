@@ -19,12 +19,12 @@ class CreateExperiencesTable extends Migration
             $table->mediumText('description')->nullable();
             $table->string('from', 10);
             $table->string('to', 10)->nullable();
-            $table->boolean('ongoing')->nullable()->default(false);
-            $table->string('employer', 120)->nullable();
-            $table->mediumText('responsibility')->nullable();
-            $table->string('attachment', 100)->nullable()->default('default.svg');
-             $table->unsignedBigInteger('partner_id');
-            
+            $table->boolean('ongoing')->default(false);
+            $table->string('employer', 120);
+            $table->longText('responsibility');
+            $table->string('attachment', 100)->default('default.svg');
+            $table->unsignedBigInteger('partner_id');
+
             $table->foreign('partner_id')->references('id')->on('partners')->onUpdate('cascade')->onDelete('cascade');
         });
     }

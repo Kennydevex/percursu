@@ -1,3 +1,4 @@
+// jshint esversion:6
 export default ({
   strict: true,
   state: {
@@ -6,21 +7,21 @@ export default ({
 
   getters: {
     charges(state) {
-      return state.charges
+      return state.charges;
     },
   },
 
   mutations: {
     updateCharges(state, payload) {
-      state.charges = payload
+      state.charges = payload;
     },
   },
 
   actions: {
     getCharges(context) {
       axios.get('/api/v1/percursu/charges').then(function(response) {
-        context.commit('updateCharges', response.data.data)
-      })
+        context.commit('updateCharges', response.data.data);
+      });
     },
   }
-})
+});

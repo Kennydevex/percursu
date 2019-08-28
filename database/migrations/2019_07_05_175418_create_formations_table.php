@@ -17,10 +17,10 @@ class CreateFormationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('designation', 100);
             $table->string('from', 10);
-            $table->string('to', 10)->nullable();
-            $table->boolean('ongoing')->nullable()->default(false);
-            $table->string('institution', 120)->nullable();
-            $table->mediumText('subjects')->nullable();
+            $table->string('to', 10);
+            $table->boolean('ongoing')->default(false);
+            $table->string('institution', 120);
+            $table->mediumText('subjects');
             $table->enum('level', ['1', '2', '3', '4', '5'])->nullable();
             $table->string('country', 50)->nullable()->default('Cabo Verde');
             $table->string('city', 50)->nullable();

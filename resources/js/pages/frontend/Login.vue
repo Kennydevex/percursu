@@ -2,8 +2,8 @@
   <div class="back">
     <v-app id="inspire">
       <v-content>
-        <v-container fluid fill-height>
-          <v-layout align-center justify-center>
+        <v-container grid-list-{xs through xl} fluid>
+          <v-layout align-center justify-center fill-height>
             <v-flex xs12 sm8 md4>
               <v-card class="elevation-1 pa-3">
                 <v-card-text>
@@ -18,7 +18,7 @@
                       :value="loginError"
                       color="error"
                       icon="mdi-alert"
-                      outline
+                      outlined
                       dismissible
                       transition="scale-transition"
                     >{{loginError}}</v-alert>
@@ -34,6 +34,7 @@
                             name="login"
                             label="Email"
                             type="text"
+                            prepend-inner-icon="mdi-email"
                             v-validate="'required|email'"
                             data-vv-name="email"
                             :error-messages="errors.collect('email')"
@@ -57,51 +58,29 @@
                 </v-card-text>
 
                 <div class="login-btn">
-                  <v-tooltip bottom>
-                    <v-btn
-                      :to="{name: 'register'}"
-                      small
-                      flat
-                      round
-                      slot="activator"
-                      dark
-                      color="primary"
-                    >
-                      <v-icon small left dark>mdi-account-plus</v-icon>Criar
-                    </v-btn>
-                    <span>Não tem uma conta? Clique para criar uma!!</span>
-                  </v-tooltip>
-                  <v-tooltip bottom>
-                    <v-btn :to="{name:'home'}" slot="activator" icon small>
-                      <v-icon color="primary" small>mdi-keyboard-backspace</v-icon>
-                    </v-btn>
-                    <span>Voltar à página principal</span>
-                  </v-tooltip>
+                  <v-btn :to="{name: 'register'}" small text rounded dark color="primary">
+                    <v-icon small left>mdi-account-plus</v-icon>Criar
+                  </v-btn>
+
+                  <v-btn :to="{name:'home'}" text icon x-small dark>
+                    <v-icon color="primary" small dark>mdi-home</v-icon>
+                  </v-btn>
 
                   <v-spacer></v-spacer>
 
-                  <v-tooltip bottom>
-                    <v-btn icon slot="activator">
-                      <v-icon color="light-blue">mdi-linkedin-box</v-icon>
-                    </v-btn>
-                    <span>Autentica-se com sua conta de Linkedin</span>
-                  </v-tooltip> 
+                  <v-btn icon>
+                    <v-icon color="light-blue">mdi-linkedin-box</v-icon>
+                  </v-btn>
 
-                   <v-tooltip bottom>
-                    <v-btn icon slot="activator">
-                      <v-icon color="blue" medium>mdi-facebook-box</v-icon>
-                    </v-btn>
-                    <span>Autentica-se com sua conta de Facebook</span>
-                  </v-tooltip>
+                  <v-btn icon slot="activator">
+                    <v-icon color="blue" medium>mdi-facebook-box</v-icon>
+                  </v-btn>
 
-                   <v-tooltip bottom>
-                    <v-btn icon slot="activator">
-                      <v-icon color="red">mdi-twitter-box</v-icon>
-                    </v-btn>
-                    <span>Autentica-se com sua conta de Twitter</span>
-                  </v-tooltip>
+                  <v-btn icon slot="activator">
+                    <v-icon color="red">mdi-twitter-box</v-icon>
+                  </v-btn>
 
-                  <v-btn @click="authenticate()" block color="primary">Entrar</v-btn>
+                  <v-btn @click="authenticate()" rounded block color="primary">Entrar</v-btn>
                 </div>
               </v-card>
             </v-flex>
@@ -115,7 +94,10 @@
 <script>
 import { login } from "@helpers/authentication";
 import validateDictionary from "@helpers/api/validateDictionary";
+import { flashAlert } from "@mixins/AppAlerts";
+
 export default {
+  mixins: [flashAlert],
   data() {
     return {
       sending: false,
@@ -149,6 +131,8 @@ export default {
           this.$store.dispatch("login");
           login(this.$data.formData)
             .then(response => {
+              this.feedback("success", 'Autenticação efetuada com sucesso. Obrigado!', 5000, true, 'bottom-left');
+
               this.$store.commit("loginSuccess", response);
               this.$router.push({ path: "/" });
               this.sending = false;

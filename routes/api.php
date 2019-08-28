@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 
 Route::prefix('v1')->group(function () {
-    Route::group(['namespace'=>'Auth','prefix' => 'auth',], function ($router) {
+    Route::group(['namespace' => 'Auth', 'prefix' => 'auth',], function ($router) {
         Route::post('register', 'AuthController@register');
         Route::post('login', 'AuthController@login');
         Route::get('refresh', 'AuthController@refresh');
@@ -13,14 +13,17 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    Route::group(['namespace'=>'System','prefix' => 'system',], function ($router) {
+    Route::group(['namespace' => 'System', 'prefix' => 'system',], function ($router) {
         Route::resource('users', 'UserController');
+        Route::get('changeUserActivation/{id}', 'UserController@changeUserActivation');
         Route::resource('permissions', 'PermissionController');
         Route::resource('roles', 'RoleController');
     });
 
-    Route::group(['namespace'=>'Percursu','prefix' => 'percursu',], function ($router) {
+    Route::group(['namespace' => 'Percursu', 'prefix' => 'percursu',], function ($router) {
         Route::resource('partners', 'PartnerController');
+        Route::get('changePartnerActivation/{id}', 'PartnerController@changePartnerActivation');
+        Route::get('activedPartners', 'PartnerController@activedPartners');
         Route::resource('charges', 'ChargeController');
         Route::resource('experiences', 'ExperienceController');
         Route::resource('formations', 'FormationController');
@@ -29,7 +32,7 @@ Route::prefix('v1')->group(function () {
         Route::resource('companies', 'CompanyController');
     });
 
-    Route::group(['namespace'=>'Helpers','prefix' => 'helpers',], function ($router) {
+    Route::group(['namespace' => 'Helpers', 'prefix' => 'helpers',], function ($router) {
         Route::resource('addresses', 'AddressController');
         Route::resource('avatars', 'AvatarController');
         Route::resource('categories', 'CategoryController');
@@ -42,14 +45,14 @@ Route::prefix('v1')->group(function () {
         Route::resource('socials', 'SocialController');
     });
 
-    Route::group(['namespace'=>'CMS','prefix' => 'cms',], function ($router) {
+    Route::group(['namespace' => 'CMS', 'prefix' => 'cms',], function ($router) {
         Route::resource('posts', 'PostController');
         Route::resource('tags', 'TagController');
     });
+
+    Route::group(['namespace' => 'Helpers', 'prefix' => 'helpers',], function ($router) {
+        Route::resource('categories', 'CategoryController');
+        Route::resource('entities', 'EntityController');
+        Route::resource('folks', 'FolkController');
+    });
 });
-
-
-
-
-
-

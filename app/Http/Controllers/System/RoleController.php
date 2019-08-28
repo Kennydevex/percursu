@@ -2,8 +2,12 @@
 
 namespace Percursu\Http\Controllers\System;
 
+use Percursu\Http\Controllers\Controller;
 use Role;
 use Illuminate\Http\Request;
+use Percursu\Http\Resources\System\RoleCollection;
+use Percursu\Http\Resources\System\Role as RoleResource;
+use Percursu\Http\Requests\System\RoleRequest;
 
 class RoleController extends Controller
 {
@@ -14,18 +18,10 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::all();
+        return new RoleCollection($roles);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +31,68 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $role = Role::create([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
+        ]);
+
+        if (count($request->permissions) > 0) {
+            $role->syncPermissions($request->permissions);
+        }
+
+        return response()->json([
+            'msg' => 'Operação efetuada com sucesso!',
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \Percursu\Models\System\User  $user
+     * @param  \Percursu\Models\System\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Role $role)
     {
-        //
+        $roleData = Role::findOrfail($role);
+        return new RoleResource($roleData);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Percursu\Models\System\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Percursu\Models\System\User  $user
+     * @param  \Percursu\Models\System\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Role $role)
     {
-        //
+        $role = Role::findOrfail($role);
+        $role->update([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
+        ]);
+
+        return response()->json([
+            'msg' => 'Operação efetuada com sucesso!',
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Percursu\Models\System\User  $user
+     * @param  \Percursu\Models\System\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        $role = Role::findOrfail($id);
+        $role->delete();
+        return response()->json([
+            'msg' => 'Função eliminada com sucesso',
+
+        ]);
     }
 }

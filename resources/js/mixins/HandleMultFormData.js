@@ -1,21 +1,22 @@
+// jshint esversion:6
+
 export const multFormData = {
     methods: {
 
         checkAuthUser() {
-            this.formData.partner.name = this.authUser.folk.name;
-            this.formData.partner.lastname = this.authUser.folk.lastname;
-            this.formData.partner.birthdate = this.authUser.folk.birthdate;
-            this.formData.partner.ic = this.authUser.folk.ic;
-            this.formData.partner.gender =
-                this.authUser.folk.gender == "Masculino" ? "m" : "f";
-            this.formData.partner.nif = this.authUser.folk.nif;
+            this.formData.folk.name = this.authUser.folk.name;
+            this.formData.folk.lastname = this.authUser.folk.lastname;
+            this.formData.folk.birthdate = this.authUser.folk.birthdate;
+            this.formData.folk.ic = this.authUser.folk.ic;
+            this.formData.folk.gender = this.authUser.folk.gender;
+            this.formData.folk.nif = this.authUser.folk.nif;
             // this.formData.couriers.email = this.authUser.email;
         },
 
         canAddPhone(k) {
             if (
-                this.formData.phones[k].number == "" ||
-                this.formData.phones[k].type == ""
+                this.formData.folk.phones[k].number == "" ||
+                this.formData.folk.phones[k].type == ""
             ) {
                 return true;
             }
@@ -26,8 +27,8 @@ export const multFormData = {
 
         canAddEmail(k) {
             if (
-                this.formData.couriers[k].email == "" ||
-                this.formData.couriers[k].type == ""
+                this.formData.folk.couriers[k].email == "" ||
+                this.formData.folk.couriers[k].type == ""
             ) {
                 return true;
             }
@@ -56,10 +57,9 @@ export const multFormData = {
 
         findRepeatedPhone(number) {
             this.repeatedPhone = false;
-            for (var i = 0; i < this.formData.phones.length - 1; i++) {
-                if (this.formData.phones[i].number == number) {
+            for (var i = 0; i < this.formData.folk.phones.length - 1; i++) {
+                if (this.formData.folk.phones[i].number == number) {
                     this.repeatedPhone = true;
-                    this.formData.phones[i].number
                     return;
                 }
             }
@@ -69,8 +69,8 @@ export const multFormData = {
 
         findRepeatedEmail(email) {
             this.repeatedEmail = false;
-            for (var i = 0; i < this.formData.couriers.length - 1; i++) {
-                if (this.formData.couriers[i].email == email) {
+            for (var i = 0; i < this.formData.folk.couriers.length - 1; i++) {
+                if (this.formData.folk.couriers[i].email == email) {
                     this.repeatedEmail = true;
                     return;
                 }
@@ -112,9 +112,9 @@ export const multFormData = {
         },
 
         morePhone(index) {
-            this.findRepeatedPhone(this.formData.phones[index].number)
+            this.findRepeatedPhone(this.formData.folk.phones[index].number)
             if (!this.repeatedPhone) {
-                this.addFormData(index, this.formData.phones, {
+                this.addFormData(index, this.formData.folk.phones, {
                     number: "",
                     type: ""
                 });
@@ -122,13 +122,13 @@ export const multFormData = {
         },
 
         removePhone(index) {
-            this.RemoveFormData(index, this.formData.phones);
+            this.RemoveFormData(index, this.formData.folk.phones);
         },
 
         moreEmail(index) {
-            this.findRepeatedEmail(this.formData.couriers[index].email)
+            this.findRepeatedEmail(this.formData.folk.couriers[index].email)
             if (!this.repeatedEmail) {
-                this.addFormData(index, this.formData.couriers, {
+                this.addFormData(index, this.formData.folk.couriers, {
                     email: "",
                     type: ""
                 });
@@ -136,7 +136,7 @@ export const multFormData = {
         },
 
         removeEmail(index) {
-            this.RemoveFormData(index, this.formData.couriers);
+            this.RemoveFormData(index, this.formData.folk.couriers);
         },
 
 
@@ -178,8 +178,8 @@ export const multFormData = {
         moreFormation(index) {
             this.addFormData(index, this.formData.formations, {
                 designation: "",
-                from: "",
-                to: "",
+                from: new Date().toISOString().substr(0, 10),
+                to: new Date().toISOString().substr(0, 10),
                 ongoing: false,
                 institution: "",
                 subjects: "",
@@ -197,8 +197,8 @@ export const multFormData = {
         moreExperience(index) {
             this.addFormData(index, this.formData.experiences, {
                 task: "",
-                from: "",
-                to: "",
+                from: new Date().toISOString().substr(0, 10),
+                to: new Date().toISOString().substr(0, 10),
                 ongoing: false,
                 employer: "",
                 responsibility: "",
@@ -228,6 +228,6 @@ export const multFormData = {
             this.RemoveFormData(index, this.formData.skills);
         },
 
-       
+
     },
 }

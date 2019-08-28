@@ -2,8 +2,13 @@
 
 namespace Percursu\Http\Controllers\System;
 
+use Percursu\Http\Controllers\Controller;
 use Permission;
 use Illuminate\Http\Request;
+use Percursu\Http\Resources\System\PermissionCollection;
+use Percursu\Http\Requests\System\PermissionRequest;
+use Percursu\Http\Resources\System\Permission as PermissionResource;
+
 
 class PermissionController extends Controller
 {
@@ -14,18 +19,10 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
+        $permissions = Permission::all();
+        return new PermissionCollection($permissions);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +32,64 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Permission::create([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
+        ]);
+
+        return response()->json([
+            'msg' => 'Operação efetuada com sucesso!',
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \Percursu\Models\System\User  $user
+     * @param  \Percursu\Models\System\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Permission $permission)
     {
-        //
+        $permissionData = Permission::findOrfail($permission);
+        return new PermissionResource($permissionData);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Percursu\Models\System\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Percursu\Models\System\User  $user
+     * @param  \Percursu\Models\System\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Permission $permission)
     {
-        //
+        $permission = Permission::findOrfail($permission);
+        $permission->update([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
+        ]);
+
+        return response()->json([
+            'msg' => 'Operação efetuada com sucesso!',
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Percursu\Models\System\User  $user
+     * @param  \Percursu\Models\System\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        $permission = Permission::findOrfail($id);
+        $permission->delete();
+        return response()->json([
+            'msg' => 'Permissão eliminada com sucesso',
+
+        ]);
     }
 }

@@ -8,16 +8,48 @@ class Partner extends Model
 {
     protected $fillable = ['status', 'folk_id'];
 
-    public function folk(){return $this->belongsTo('Folk');}
+    public function folk()
+    {
+        return $this->belongsTo('Folk');
+    }
 
-    public function formations(){return $this->hasMany('Formation');}
+    public function formations()
+    {
+        return $this->hasMany('Formation');
+    }
 
-    public function experiences(){return $this->hasMany('Post');}
+    public function experiences()
+    {
+        return $this->hasMany('Experience');
+    }
 
-    public function skills(){return $this->hasMany('Experience');}
+    public function sites()
+    {
+        return $this->hasMany('Site');
+    }
 
-    public function charges(){return $this->belongsToMany('charge');}
+    public function socials()
+    {
+        return $this->hasMany('Social');
+    }
 
-    public function getStatusAttribute($value){if ($value) {return true;}return false;}
+    public function skills()
+    {
+        return $this->hasMany('Skill');
+    }
 
+    public function charges()
+    {
+        return $this->belongsToMany('Charge');
+    }
+
+    public function getStatusAttribute($value)
+    {
+        if ($value) {
+            return true;
+        }
+        return false;
+    }
+
+  
 }
