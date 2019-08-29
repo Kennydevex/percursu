@@ -1,6 +1,8 @@
 const mix = require('laravel-mix');
 
-mix.js('resources/js/app.js', 'public/js').version();
+mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .version();
 
 
 let base_path = 'resources/js/'
@@ -25,6 +27,29 @@ mix.webpackConfig({
         },
     },
 });
+
+// mix.webpackConfig({
+//     module: {
+//         rules: [
+//             {
+//                 test: /\.s(c|a)ss$/,
+//                 use: [
+//                     'vue-style-loader',
+//                     'css-loader',
+//                     {
+//                         loader: 'sass-loader',
+//                         options: {
+//                             implementation: require('sass'),
+//                             fiber: require('fibers'),
+//                             indentedSyntax: false // optional
+//                         }
+//                     }
+//                 ]
+//             }
+//         ]
+//     }
+// })
+
 
 // mix.browserSync('http://localhost:8000');
 

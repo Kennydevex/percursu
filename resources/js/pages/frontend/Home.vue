@@ -6,6 +6,7 @@
 
 
     <app-parralax />
+    <app-featured />
 
     <app-map />
     <template v-if="authUser">
@@ -50,6 +51,7 @@
 <script>
 import AppSlider from "@pfront/AppSlider";
 import AppParralax from "@pfront/AppParralax";
+import AppFeatured from "@pfront/AppFeatured";
 import AppMissions from "@pfront/AppMissions";
 import AppMap from "@pfront/AppMap";
 export default {
@@ -63,7 +65,8 @@ export default {
     AppSlider,
     AppMissions,
     AppMap,
-    AppParralax
+    AppParralax,
+    AppFeatured
   }
 };
 </script>

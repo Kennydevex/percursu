@@ -35,6 +35,8 @@ class AuthController extends Controller
             'status' => $request->status,
             'folk_id' => $folk->id,
         ]);
+
+        
         //Relacionamento
         // $user->syncRoles($request->roles);
         // $user->syncPermissions($request->permissions);

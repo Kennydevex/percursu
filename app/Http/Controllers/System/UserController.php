@@ -45,14 +45,14 @@ class UserController extends Controller
             'folk_id' => $folk->id,
         ]);
 
-        if (count($request->roles) > 0) {
-            $user->syncRoles($request->roles);
+        if (!$user) {
+            $folk->delete();
+            return;
         }
 
-        if (count($request->permissions) > 0) {
-            $user->syncPermissions($request->permissions);
-        }
-
+        $user->attachRoles($request->roles);
+        $user->attachPermissions($request->permissions);
+       
         return response()->json([
             'msg' => 'Utilizador registado com sucesso',
         ]);

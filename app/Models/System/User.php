@@ -7,11 +7,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use LaratrustUserTrait;
     use Notifiable;
 
     /**
@@ -67,15 +65,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany('Company');
     }
 
-    public function permissions()
-    {
-        return $this->belongsToMany('Permission');
-    }
+    // public function permissions()
+    // {
+    //     return $this->belongsToMany('Permission');
+    // }
 
-    public function roles()
-    {
-        return $this->belongsToMany('Role');
-    }
+    // public function roles()
+    // {
+    //     return $this->belongsToMany('Role');
+    // }
 
     public function getStatusAttribute($value)
     {

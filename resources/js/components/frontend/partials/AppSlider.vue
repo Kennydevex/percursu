@@ -11,7 +11,7 @@
               swiper-animate-duration="2s"
             >
               <div
-                class="display-1 font-weight-bold text-uppercase justify-start text-xs-right grey--text text--lighten-2"
+                class="testando display-1 font-weight-bold text-uppercase justify-start text-xs-right grey--text text--lighten-2"
               >Fromação Profissional</div>
             </div>
             <v-divider
@@ -35,7 +35,7 @@
                 swiper-animate-duration="3s"
               >
                 <v-btn small outlined color="white" tile>Detalhes</v-btn>
-              </div> 
+              </div>
             </div>
           </div>
         </v-img>
@@ -95,10 +95,10 @@ export default {
   data() {
     return {
       swiperOption: {
-        spaceBetween: 30,
+        spaceBetween: 60,
         centeredSlides: true,
         autoplay: {
-          delay: 2500,
+          delay: 5500,
           disableOnInteraction: false
         },
         pagination: {
@@ -109,6 +109,10 @@ export default {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
         },
+
+        zoom: true,
+
+        effect: "fade",
 
         on: {
           slideChange: function() {
@@ -127,15 +131,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-$breakpoint-tablet: 768px;
-$information-phone: "only screen and (max-width : 320px)";
+
+<style  scoped  lang="scss">
 .swiper-slide {
   background-size: cover;
   background-position: center;
 }
 
-// =========================================================
 .appCard {
   margin: 0;
   padding: 14px;

@@ -1,6 +1,8 @@
 
 // jshint esversion:6
-
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
 export const Permissions = {
   data: () => ({
     permissions: [],
@@ -8,7 +10,7 @@ export const Permissions = {
 
   computed: {
     authUser: function () {
-      return this.store.getters.authUser;
+      return this.$store.getters.authUser;
     },
   },
 
@@ -19,12 +21,13 @@ export const Permissions = {
   methods: {
 
     setUserPermissions() {
-      let mthis = this;
       if (!this.authUser) {
         return;
       }
       this.authUser.permissions.forEach(function (permissions) {
-        mthis.permissions.push(permissions.name);
+        console.log('testeteet');
+        
+        this.permissions.push(permissions.name);
       });
     },
 

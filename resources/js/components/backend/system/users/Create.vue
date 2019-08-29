@@ -250,8 +250,8 @@ export default {
       password_confirmation: "",
       status: false,
       avatar: "default.svg",
-      roles: "",
-      permissions: ""
+      roles: [],
+      permissions: []
     },
     dictionary: validateDictionary
   }),
