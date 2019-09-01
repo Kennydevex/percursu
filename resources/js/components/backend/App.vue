@@ -40,6 +40,7 @@
               :group="item.group"
               :prepend-icon="item.icon"
               no-action="no-action"
+              :disabled="!(_is(item.role) || _is('admin') || _is('super-admin'))"
             >
               <v-list-item slot="activator">
                 <v-list-item-content>
@@ -48,7 +49,7 @@
               </v-list-item>
 
               <template v-for="(subItem, i) in item.items">
-                <v-list-group
+                <!-- <v-list-group
                   v-if="subItem.items"
                   :key="subItem.name"
                   :group="subItem.group"
@@ -69,15 +70,15 @@
                       <v-list-item-title>{{ grand.title }}</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
-                </v-list-group>
+                </v-list-group> -->
 
                 <v-list-item
-                  v-else
                   :key="i"
                   :to="genChildTarget(item, subItem)"
                   :href="subItem.href"
                   :disabled="subItem.disabled"
                   :target="subItem.target"
+                  v-if="_is(subItem.role) || _is('admin') || _is('super-admin')"
                 >
                   <v-list-item-content>
                     <v-list-item-title>
@@ -95,7 +96,9 @@
               v-else-if="item.header"
               :key="i"
             >{{ item.header }}</v-subheader>
+            
             <v-divider v-else-if="item.divider" :key="i"></v-divider>
+
             <!--top-level link-->
             <v-list-item
               v-else

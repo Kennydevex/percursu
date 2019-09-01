@@ -22,7 +22,7 @@ import { init } from '@helpers/init';
 AOS.init();
 
 
-import { Permissions } from '@mixins/AccessControl';
+import { acl } from '@mixins/AccessControl';
 
 
 // if (process.env.MIX_APP_ENV === 'production') {
@@ -71,7 +71,9 @@ Vue.mixin({
         authUser: function () { return this.$store.getters.authUser; }
     },
 });
-// Vue.mixin(Permissions);
+
+
+Vue.mixin(acl);
 
 init(store, router);
 const app = new Vue({

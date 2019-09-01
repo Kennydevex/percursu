@@ -1,38 +1,45 @@
-
 // jshint esversion:6
-import Vue from 'vue'
-import Vuex from 'vuex'
-Vue.use(Vuex)
-export const Permissions = {
+import store from '../store';
+export const acl = {
   data: () => ({
-    permissions: [],
+    userPermissions: [],
+    userRoles: [],
   }),
 
   computed: {
     authUser: function () {
-      return this.$store.getters.authUser;
+      return store.state.authentication.authUser;
     },
   },
 
   created: function () {
     this.setUserPermissions();
+    this.setUserRoles();
   },
 
   methods: {
-
     setUserPermissions() {
-      if (!this.authUser) {
-        return;
-      }
-      this.authUser.permissions.forEach(function (permissions) {
-        console.log('testeteet');
-        
-        this.permissions.push(permissions.name);
+      let mthis = this;
+      if (!this.authUser) { return; }
+      this.authUser.permissions.forEach(function (permission) {
+        mthis.userPermissions.push(permission.name);
       });
     },
 
-    $can(permissionName) {
-      return this.permissions.indexOf(permissionName) !== -1;
+    setUserRoles() {
+      let mthis = this;
+      if (!this.authUser) { return; }
+      this.authUser.roles.forEach(function (role) {
+        mthis.userRoles.push(role.name);
+      });
+    },
+
+    _can(permission) {
+      return this.userPermissions.indexOf(permission) !== -1;
+    },
+
+    _is(role) {
+      return this.userRoles.indexOf(role) !== -1;
     },
   },
 };

@@ -58,13 +58,10 @@ export default {
       selected: [],
       headers: [
         {
-          text: "Rótulo",
-          value: "display_name"
+          text: "Nome",
+          value: "name"
         },
-        {
-          text: "Descrição",
-          value: "description"
-        }
+       
       ],
       user: []
     };

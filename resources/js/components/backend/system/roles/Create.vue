@@ -11,7 +11,7 @@
         <v-form ref="form">
           <v-container grid-list-md>
             <v-layout row wrap>
-              <v-flex xs12 md6>
+              <v-flex xs12>
                 <v-text-field
                   outlined
                   label="* Nome da função"
@@ -25,31 +25,6 @@
                 ></v-text-field>
               </v-flex>
 
-              <v-flex xs12 md6>
-                <v-text-field
-                  outlined
-                  label="* Rótulo"
-                  name="display_name"
-                  hint="Nome de apresentação da função"
-                  v-model="role.display_name"
-                  required
-                  v-validate="'required'"
-                  data-vv-name="rotulo"
-                  :error-messages="errors.collect('rotulo')"
-                ></v-text-field>
-              </v-flex>
-
-              <v-flex xs12>
-                <v-textarea
-                  outlined
-                  label="Descrição da função"
-                  name="description"
-                  hint="Escreva aqui uma pequena descrição desta função"
-                  v-model="role.description"
-                  outline
-                ></v-textarea>
-              </v-flex>
-
               <v-flex xs12>
                 <v-subheader>Vincular permissões à função</v-subheader>
                 <v-select
@@ -58,7 +33,7 @@
                   name="permissions"
                   :items="permissions"
                   v-model="role.permissions"
-                  item-text="display_name"
+                  item-text="name"
                   item-value="id"
                   label="Permissão"
                   prepend-inner-icon="mdi-clipboard-text"

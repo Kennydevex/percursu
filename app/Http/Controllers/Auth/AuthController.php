@@ -59,7 +59,8 @@ class AuthController extends Controller
 
         $user->load(
             'folk.partner',
-            'permissions'
+            'permissions',
+            'roles'
         );
 
         if (!$user)

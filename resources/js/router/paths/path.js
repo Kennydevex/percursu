@@ -65,6 +65,8 @@ import General from '@back/settings/general/Index.vue';
 import Help from '@back/suport/helps/Index.vue';
 // import Login from '@compts/auth/Login.vue'
 
+import PageError from '@pages/errors/403.vue';
+
 export default [
     //Admin Paths
     {
@@ -73,6 +75,7 @@ export default [
         meta: {
             requiresAuth: true,
             breadcrumb: true,
+            manager: true,
         },
         children: [
             {
@@ -113,6 +116,9 @@ export default [
             }, {
                 path: '/utilizadores',
                 component: Users,
+                meta: {
+                    admin: true,
+                },
                 children: [
                     {
                         path: '/',
@@ -136,6 +142,9 @@ export default [
             {
                 path: '/permissoes',
                 component: Permissions,
+                meta: {
+                    admin: true,
+                },
                 children: [
                     {
                         path: '/',
@@ -147,6 +156,9 @@ export default [
             {
                 path: '/papeis',
                 component: Roles,
+                meta: {
+                    admin: true,
+                },
                 children: [
                     {
                         path: '/',
@@ -235,6 +247,7 @@ export default [
             },
 
             { path: '/ajuda', name: 'help', component: Help },
+            { path: '_=_', redirect: '/' },
         ]
     },
     //App Frontend Paths
@@ -257,12 +270,20 @@ export default [
                     }, {
                         path: '/formacoes',
                         name: 'formacoes',
-                        component: Formacoes 
+                        component: Formacoes
                     }, {
+                        path: '/colaboradores/criar',
+                        name: 'criar-colobaradores',
+                        component: CreatePartner
+                    }, {
+                        path: '/colaboradores/editar/:username',
+                        name: 'editar-colobaradores',
+                        component: UpdatePartner
+                    },{
                         path: '/colaboradores',
                         name: 'colaboradores',
                         component: Colaboradores
-                    }, 
+                    },
                     {
                         path: '/noticias',
                         name: 'noticias',
@@ -284,10 +305,17 @@ export default [
                         path: '/perfil/:username',
                         name: 'front-perfil',
                         component: FrontPerfil
+                    },
+
+                    {
+                        path: '/403',
+                        name: '403_error',
+                        component: PageError
                     }
                 ]
             }
         ]
-    }
+    },
+
 
 ];

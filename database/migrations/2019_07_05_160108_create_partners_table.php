@@ -16,6 +16,8 @@ class CreatePartnersTable extends Migration
         Schema::create('partners', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('status')->default(false);
+            $table->boolean('featured')->default(false);
+            $table->boolean('promo')->default(false);
             $table->unsignedBigInteger('folk_id');
             $table->timestamps();
             $table->foreign('folk_id')->references('id')->on('folks')->onUpdate('cascade');

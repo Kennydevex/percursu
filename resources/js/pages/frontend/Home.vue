@@ -4,14 +4,13 @@
 
     <app-missions />
 
-
     <app-parralax />
     <app-featured />
 
     <app-map />
     <template v-if="authUser">
       <v-btn
-        :to="{name: 'create-partner'}"
+        :to="{name: 'editar-colobaradores', params: {username: authUser.username}}"
         color="primary"
         dark
         medium
@@ -26,7 +25,7 @@
       </v-btn>
 
       <v-btn
-        :to="{name: 'create-partner'}"
+        :to="{name: 'criar-colobaradores'}"
         color="primary"
         dark
         medium

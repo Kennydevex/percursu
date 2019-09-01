@@ -8,6 +8,7 @@ const Menu = [
         group: 'general',
         icon: 'mdi-view-dashboard-variant',
         name: 'dashboard',
+        role: 'admin'
     },
 
     // ===============================================
@@ -18,14 +19,17 @@ const Menu = [
         title: 'Percursu',
         group: 'percursu',
         icon: 'mdi-map-marker-path',
+        role: 'manager',
         items: [{
             name: 'list-partners',
             title: 'Parceiros',
-            component: 'list-partners'
+            component: 'list-partners',
+            role: 'manager'
         }, {
             name: 'list-companies',
             title: 'Empresas',
-            component: 'list-companies'
+            component: 'list-companies',
+            role: 'manager'
         }
         ]
     },
@@ -37,19 +41,23 @@ const Menu = [
         title: 'Conteúdos',
         group: 'cms',
         icon: 'mdi-application',
+        role: 'publishe1r',
         items: [{
             name: 'list-posts',
             title: 'Publicações',
-            component: 'list-posts'
+            component: 'list-posts',
+            role: 'publisher'
         },
         {
             name: 'list-categories',
             title: 'Categorias',
-            component: 'list-categories'
+            component: 'list-categories',
+            role: 'publisher'
         }, {
             name: 'list-tags',
             title: 'Marcadores',
-            component: 'list-tags'
+            component: 'list-tags',
+            role: 'publisher'
         },
         ]
     },
@@ -59,18 +67,22 @@ const Menu = [
         title: 'Sistema',
         group: 'system',
         icon: 'mdi-tune',
+        role: 'admin',
         items: [{
             name: 'list-users',
             title: 'Utilizadores',
-            component: 'list-users'
+            component: 'list-users',
+            role: 'admin'
         }, {
             name: 'list-roles',
             title: 'Funções',
-            component: 'list-roles'
+            component: 'list-roles',
+            role: 'admin'
         }, {
             name: 'list-permissions',
             title: 'Permissóes',
-            component: 'list-permissions'
+            component: 'list-permissions',
+            role: 'admin'
         },]
     },
     {
@@ -83,19 +95,23 @@ const Menu = [
         group: 'settings',
         component: 'settings',
         icon: 'mdi-settings',
+        role: 'admin',
         items: [{
             name: 'entities',
             title: 'Entidades do sistema',
-            component: 'entities'
+            component: 'entities',
+            role: 'admin'
         }, {
             name: 'folks',
             title: 'Registos do pessoal',
-            component: 'folks'
+            component: 'folks',
+            role: 'admin'
         }, {
             title: 'Geral',
             icon: 'help',
             name: 'general',
-            component: 'general'
+            component: 'general',
+            role: 'admin'
         }]
     },
     // ===============================================
@@ -104,6 +120,7 @@ const Menu = [
         group: 'extra',
         icon: 'mdi-help-box',
         name: 'help',
+        role: ''
     },
 ];
 // reorder menu

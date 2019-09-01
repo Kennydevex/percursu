@@ -8,6 +8,12 @@
 
     <v-layout row wrap>
       <v-flex xs12>
+        <featured-partners />
+      </v-flex>
+    </v-layout>
+
+    <v-layout row wrap>
+      <v-flex xs12>
         <v-card color="transparent" flat class="mt-2">
           <!-- <v-toolbar color="white" class="elevation-1">
             <v-text-field
@@ -21,9 +27,9 @@
             <v-btn icon>
               <v-icon>mdi-filter-variant</v-icon>
             </v-btn>
-          </v-toolbar> -->
+          </v-toolbar>-->
 
-          <v-card-text class="mt-2 pa-0">
+          <v-container class="mt-2 pa-0">
             <v-layout row wrap>
               <template v-for="(partner, index) in activedPartners">
                 <v-flex xs12 md3 :key="index">
@@ -64,7 +70,11 @@
                     <v-card-text>Visit ten places on our planet that are undergoing the biggest changes today.</v-card-text>
 
                     <v-card-actions>
-                      <v-btn  @click="onViewPartner(partner.folk.user.username)" text color="deep-purple accent-4">Ver</v-btn>
+                      <v-btn
+                        @click="onViewPartner(partner.folk.user.username)"
+                        text
+                        color="deep-purple accent-4"
+                      >Ver</v-btn>
                       <!-- <v-btn text color="deep-purple accent-4">Bookmark</v-btn> -->
                       <v-spacer></v-spacer>
                       <v-btn icon>
@@ -78,21 +88,78 @@
                 </v-flex>
               </template>
             </v-layout>
-          </v-card-text>
+          </v-container>
         </v-card>
+      </v-flex>
+    </v-layout>
+
+    <v-layout row wrap>
+      <v-flex xs12>
+        <template v-if="authUser">
+          <v-btn
+            :to="{name: 'editar-colobaradores', params: {username: authUser.username}}"
+            color="primary"
+            dark
+            medium
+            fixed
+            bottom
+            right
+            fab
+            class="mb-5"
+            v-if="authUser.folk.partner"
+          >
+            <v-icon>mdi-account-edit</v-icon>
+          </v-btn>
+
+          <v-btn
+            :to="{name: 'criar-colobaradores'}"
+            color="primary"
+            dark
+            medium
+            fixed
+            bottom
+            right
+            fab
+            class="mb-5"
+            v-if="!authUser.folk.partner"
+          >
+            <v-icon>mdi-account-plus</v-icon>
+          </v-btn>
+        </template>
+
+        <template v-else>
+          <v-btn
+            :to="{name: 'login'}"
+            color="primary"
+            dark
+            medium
+            fixed
+            bottom
+            right
+            fab
+            class="mb-5"
+          >
+            <v-icon>mdi-login-variant</v-icon>
+          </v-btn>
+        </template>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import CreatePartner from "@back/percursu/partners/Create";
+import UpdatePartner from "@back/percursu/partners/Update";
 import AppMap from "@pfront/AppMap";
+import FeaturedPartners from "@pfront/FeaturedPartners";
 import { getPartnersDatas } from "@mixins/HelpersData";
 
 export default {
   mixins: [getPartnersDatas],
+
   components: {
-    AppMap
+    AppMap,
+    FeaturedPartners
   },
 
   methods: {

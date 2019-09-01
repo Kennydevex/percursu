@@ -1607,7 +1607,8 @@ export default {
     },
 
     cancel: function() {
-      this.$router.push({ name: "list-partners" });
+      this.$router.go(-1)
+      // this.$router.push({ name: "list-partners" });
     },
 
     nextStep(scope) {

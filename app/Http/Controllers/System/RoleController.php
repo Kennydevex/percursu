@@ -3,11 +3,18 @@
 namespace Percursu\Http\Controllers\System;
 
 use Percursu\Http\Controllers\Controller;
-use Role;
+// use Role;
 use Illuminate\Http\Request;
 use Percursu\Http\Resources\System\RoleCollection;
 use Percursu\Http\Resources\System\Role as RoleResource;
 use Percursu\Http\Requests\System\RoleRequest;
+
+
+use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Models\Permission;
+
+// $permission = Permission::create(['name' => 'edit articles']);
+
 
 class RoleController extends Controller
 {
@@ -31,15 +38,9 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $role = Role::create([
-            'name' => $request->name,
-            'display_name' => $request->display_name,
-            'description' => $request->description,
-        ]);
 
-        if (count($request->permissions) > 0) {
-            $role->syncPermissions($request->permissions);
-        }
+        $role = Role::create(['name' => $request->name]);
+        $role->syncPermissions($request->permissions);
 
         return response()->json([
             'msg' => 'Operação efetuada com sucesso!',

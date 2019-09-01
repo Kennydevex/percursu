@@ -3,11 +3,11 @@
 namespace Percursu\Http\Controllers\System;
 
 use Percursu\Http\Controllers\Controller;
-use Permission;
 use Illuminate\Http\Request;
 use Percursu\Http\Resources\System\PermissionCollection;
 use Percursu\Http\Requests\System\PermissionRequest;
 use Percursu\Http\Resources\System\Permission as PermissionResource;
+use Spatie\Permission\Models\Permission;
 
 
 class PermissionController extends Controller
@@ -32,12 +32,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        Permission::create([
-            'name' => $request->name,
-            'display_name' => $request->display_name,
-            'description' => $request->description,
-        ]);
-
+        $permission = Permission::create(['name' => $request->name]);
         return response()->json([
             'msg' => 'Operação efetuada com sucesso!',
         ]);

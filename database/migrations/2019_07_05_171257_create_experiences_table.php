@@ -22,7 +22,7 @@ class CreateExperiencesTable extends Migration
             $table->boolean('ongoing')->default(false);
             $table->string('employer', 120);
             $table->longText('responsibility');
-            $table->string('attachment', 100)->default('default.svg');
+            $table->string('attachment', 100)->nullable()->default('default.svg');
             $table->unsignedBigInteger('partner_id');
 
             $table->foreign('partner_id')->references('id')->on('partners')->onUpdate('cascade')->onDelete('cascade');

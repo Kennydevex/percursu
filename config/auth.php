@@ -22,7 +22,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => User::class,
+            'model' => Percursu\Models\System\User::class,
         ],
     ],
 

@@ -13,7 +13,7 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    Route::group(['namespace' => 'System', 'prefix' => 'system',], function ($router) {
+    Route::group(['namespace' => 'System', 'prefix' => 'system', 'middleware' => ['role:write222r']], function ($router) {
         Route::resource('users', 'UserController');
         Route::get('changeUserActivation/{id}', 'UserController@changeUserActivation');
         Route::resource('permissions', 'PermissionController');

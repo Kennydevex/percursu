@@ -50,8 +50,8 @@ class UserController extends Controller
             return;
         }
 
-        $user->attachRoles($request->roles);
-        $user->attachPermissions($request->permissions);
+        $user->givePermissionTo($request->permissions);
+        $user->assignRole($request->roles);
        
         return response()->json([
             'msg' => 'Utilizador registado com sucesso',

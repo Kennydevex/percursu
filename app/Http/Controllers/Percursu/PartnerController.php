@@ -74,7 +74,7 @@ class PartnerController extends Controller
         if ($folk->partner) {
             return response()->json([
                 'exist' => true,
-                'msg' => 'Já tens um curriculum registado, se não consegues acessa-lo tente reiniciar a sua conta ou  contacte o administrador do sistema',
+                'msg' => 'Já tens um curriculum registado, se não consegues acessa-lo tente reiniciar a sua conta. Por agora alumas informações serrão atualizadas',
             ]);
         }
 

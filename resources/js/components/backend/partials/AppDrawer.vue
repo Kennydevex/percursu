@@ -40,8 +40,9 @@
             :prepend-icon="item.icon"
             no-action="no-action"
           >
+          
             <v-list-tile slot="activator" ripple="ripple">
-              <v-list-tile-content>
+              <v-list-tile-content v-if="_is('admin2')">
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
