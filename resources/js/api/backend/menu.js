@@ -41,7 +41,7 @@ const Menu = [
         title: 'Conteúdos',
         group: 'cms',
         icon: 'mdi-application',
-        role: 'publishe1r',
+        role: 'publisher',
         items: [{
             name: 'list-posts',
             title: 'Publicações',
@@ -77,12 +77,12 @@ const Menu = [
             name: 'list-roles',
             title: 'Funções',
             component: 'list-roles',
-            role: 'admin'
+            role: 'super-admin'
         }, {
             name: 'list-permissions',
             title: 'Permissóes',
             component: 'list-permissions',
-            role: 'admin'
+            role: 'super-admin'
         },]
     },
     {
@@ -100,7 +100,7 @@ const Menu = [
             name: 'entities',
             title: 'Entidades do sistema',
             component: 'entities',
-            role: 'admin'
+            role: 'super-admin'
         }, {
             name: 'folks',
             title: 'Registos do pessoal',
@@ -111,7 +111,7 @@ const Menu = [
             icon: 'help',
             name: 'general',
             component: 'general',
-            role: 'admin'
+            role: 'super-admin'
         }]
     },
     // ===============================================

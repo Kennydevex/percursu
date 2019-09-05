@@ -95,6 +95,40 @@
                 </v-btn>
               </template>
 
+               <template v-slot:item.featured="{ item }">
+                <v-btn
+                  :loading="loadPartnerFeatured[item.id]"
+                  x-small
+                  rounded
+                  outlined
+                  class="text-capitalize"
+                  :color="item.featured==true?'primary':'warning'"
+                  @click="handlePartnerFeatured(item.id, item.featured)"
+                >
+                  <small>{{item.featured==true?'Em distaque':'Normal'}}</small>
+                  <span slot="loader" class="custom-loader-class">
+                    <v-icon small>mdi-dots-horizontal</v-icon>
+                  </span>
+                </v-btn>
+              </template>
+
+               <template v-slot:item.promo="{ item }">
+                <v-btn
+                  :loading="loadPartnerPromotion[item.id]"
+                  x-small
+                  rounded
+                  outlined
+                  class="text-capitalize"
+                  :color="item.promo==true?'success':'grey'"
+                  @click="handlePartnerPromotion(item.id, item.promo)"
+                >
+                  <small>{{item.promo==true?'Promo':'Não Promovido'}}</small>
+                  <span slot="loader" class="custom-loader-class">
+                    <v-icon small>mdi-dots-horizontal</v-icon>
+                  </span>
+                </v-btn>
+              </template>
+
               <template v-slot:item.action="{ item }">
                 <v-icon
                   small
@@ -152,6 +186,8 @@ export default {
     return {
       fab: false,
       loadPartnerAtivaction: {},
+      loadPartnerFeatured: {},
+      loadPartnerPromotion: {},
       search: "",
       selected: [],
       headers: [
@@ -168,6 +204,16 @@ export default {
         {
           text: "Estado",
           value: "status",
+          align: "center"
+        },
+        {
+          text: "Distaque",
+          value: "featured",
+          align: "center"
+        },
+        {
+          text: "Promoção",
+          value: "promo",
           align: "center"
         },
         {
@@ -193,8 +239,6 @@ export default {
   },
 
   methods: {
-
-
     handlePartnerActivation: function(id, status) {
       let feed = status ? "Desativado" : "Ativado";
       this.$set(this.loadPartnerAtivaction, id, false);
@@ -221,6 +265,89 @@ export default {
                 true
               );
               this.$set(this.loadPartnerAtivaction, id, false);
+            })
+            .catch(err => {
+              this.feedback(
+                "error",
+                "Erro de operação, tente outra vez",
+                2000,
+                true
+              );
+            });
+        } else if (result.dismiss === "cancel") {
+          this.feedback("error", "Operação cancelada!", 2000, true);
+        }
+      });
+    },
+
+     handlePartnerFeatured: function(id, featured) {
+      let feed = featured ? "Normal" : "Em Destaque";
+      this.$set(this.loadPartnerFeatured, id, false);
+      this.$swal({
+        title: featured ? "Curriculum Normal?" : "Destacar curriculum?",
+        text: "Tens certeza que queres efetuar esta ação?",
+        type: "question",
+        showCancelButton: true,
+        confirmButtonColor: featured ? "#ef9309" : "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: featured ? "Sim" : "Sim, Destacar",
+        cancelButtonText: "Cancelar!"
+      }).then(result => {
+        if (result.value) {
+          this.$set(this.loadPartnerFeatured, id, true);
+          axios
+            .get("/api/v1/percursu/changePartnerFeatured/" + id)
+            .then(response => {
+              this.getUpdatedPartners();
+              this.feedback(
+                "success",
+                "Curriculum " + feed + " com sucesso",
+                3000,
+                true
+              );
+              this.$set(this.loadPartnerFeatured, id, false);
+            })
+            .catch(err => {
+              this.feedback(
+                "error",
+                "Erro de operação, tente outra vez",
+                2000,
+                true
+              );
+            });
+        } else if (result.dismiss === "cancel") {
+          this.feedback("error", "Operação cancelada!", 2000, true);
+        }
+      });
+    },
+
+
+    handlePartnerPromotion: function(id, promo) {
+      let feed = promo ? "Não promovido" : "Promovido";
+      this.$set(this.loadPartnerPromotion, id, false);
+      this.$swal({
+        title: promo ? "Dispromover?" : "Promover?",
+        text: "Tens certeza que queres efetuar esta ação?",
+        type: "question",
+        showCancelButton: true,
+        confirmButtonColor: promo ? "#ef9309" : "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: promo ? "Sim, Dispromover" : "Sim, Promover",
+        cancelButtonText: "Cancelar!"
+      }).then(result => {
+        if (result.value) {
+          this.$set(this.loadPartnerPromotion, id, true);
+          axios
+            .get("/api/v1/percursu/changePartnerPromotion/" + id)
+            .then(response => {
+              this.getUpdatedPartners();
+              this.feedback(
+                "success",
+                "Curriculum " + feed + " com sucesso",
+                3000,
+                true
+              );
+              this.$set(this.loadPartnerPromotion, id, false);
             })
             .catch(err => {
               this.feedback(

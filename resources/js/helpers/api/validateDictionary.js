@@ -48,7 +48,7 @@ export default {
 
     birthdate: {
       before: () =>
-        'Data de nascimento não pode ser uma data do futuro',
+        'Não sei a sua data de nascimento, mas, certamente que já nasceste',
       after: () => 'Data exagerada',
       date_format: () => 'Escolha um data válida',
     },

@@ -8,7 +8,7 @@ export const flashAlert = {
                 type: type,
                 title: msg,
                 showConfirmButton: false,
-                timer: timer
+                timer: timer ? timer : 3000
             });
         },
     },
@@ -16,10 +16,10 @@ export const flashAlert = {
 
 export const actionAlert = {
     methods: {
-        deleteAlert(type, msg, toast) {
+        deleteAlert(type, msg, text = "Ação iurreversível, queres continuar?") {
             return this.$swal({
                 title: msg,
-                text: "Ação iurreversível, queres continuar?",
+                text: text,
                 type: type,
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",

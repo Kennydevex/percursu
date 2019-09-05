@@ -65,30 +65,58 @@ class PartnerController extends Controller
      */
     public function store(PartnerRequest $request)
     {
+        $folk = "";
 
-
-        // $cover = Common::storeLocalFile($request->input('folk.cover'), 'images/partners/covers/');
-
-        $folk = Folk::findOrfail(auth()->user()->folk->id);
-
-        if ($folk->partner) {
-            return response()->json([
-                'exist' => true,
-                'msg' => 'Já tens um curriculum registado, se não consegues acessa-lo tente reiniciar a sua conta. Por agora alumas informações serrão atualizadas',
+        if ($request->not_mine && $request->new) {
+            $folk = Folk::create([
+                'name' => $request->input('folk.name'),
+                'lastname' => $request->input('folk.lastname'),
+                'gender' => $request->input('folk.gender'),
+                'avatar' => $request->input('folk.avatar') ? Common::storeLocalFile($request->input('folk.avatar'), 'images/folks/avatar/') : 'default.svg',
+                'cover' => $request->input('folk.cover') ? Common::storeLocalFile($request->input('folk.cover'), 'images/folks/avatar/') : 'default.svg',
+                'ic' => $request->input('folk.ic'),
+                'nif' => $request->input('folk.nif'),
+                'birthdate' => $request->input('folk.birthdate'),
+            ]);
+            $user = User::create([
+                'email' => $request->input('user.email'),
+                'username' => $request->input('user.username'),
+                'password' => bcrypt($request->input('user.password')),
+                'status' => true,
+                'folk_id' => $folk->id,
             ]);
         }
 
+
+        if ($request->not_mine && !$request->new) {
+            $user = User::whereUsername($request->input('user.username'))->first();
+            $folk = Folk::findOrfail($user->id);
+        }
+
+        if (!$request->not_mine) {
+            $folk = Folk::findOrfail(auth()->user()->folk->id);
+        }
 
         $folk->update([
             'name' => $request->input('folk.name'),
             'lastname' => $request->input('folk.lastname'),
             'gender' => $request->input('folk.gender'),
             'avatar' => $request->input('folk.avatar') ? Common::storeLocalFile($request->input('folk.avatar'), 'images/folks/avatar/') : $folk->avatar,
-            'cover' => $request->input('folk.cover') ? Common::storeLocalFile($request->input('folk.cover'), 'images/folks/avatar/') : $folk->avatar,
+            'cover' => $request->input('folk.cover') ? Common::storeLocalFile($request->input('folk.cover'), 'images/folks/avatar/') : $folk->cover,
             'ic' => $request->input('folk.ic'),
             'nif' => $request->input('folk.nif'),
             'birthdate' => $request->input('folk.birthdate'),
         ]);
+
+        if ($folk->partner) {
+            return response()->json([
+                'exist' => true,
+                'msg' => 'Já tens um curriculum registado, se não consegues acessa-lo tente reiniciar a sua conta. Por agora alumas informações serão atualizadas',
+            ]);
+        }
+
+
+
 
         $location = Location::create([
             'lat' => $request->input('folk.address.location.lat'),
@@ -106,6 +134,8 @@ class PartnerController extends Controller
 
         $partner = Partner::create([
             'status' => $request->status,
+            'featured' => $request->featured,
+            'promo' => $request->promo,
             'folk_id' => $folk->id
         ]);
 
@@ -746,6 +776,28 @@ class PartnerController extends Controller
         ]);
     }
 
+    public function changePartnerFeatured($id)
+    {
+        $partner = Partner::findOrfail($id);
+        $partner->featured = !$partner->featured;
+        $partner->update();
+
+        return response()->json([
+            'msg' => 'Operação efetuado do com sucesso ',
+        ]);
+    }
+
+    public function changePartnerPromotion($id)
+    {
+        $partner = Partner::findOrfail($id);
+        $partner->promo = !$partner->promo;
+        $partner->update();
+
+        return response()->json([
+            'msg' => 'Operação efetuado do com sucesso ',
+        ]);
+    }
+
     public function activedPartners()
     {
         $partners = Partner::whereStatus(true)->orderBy('created_at', 'desc')->get();
@@ -764,4 +816,6 @@ class PartnerController extends Controller
         });
         return new PartnerCollection($partners);
     }
+
+   
 }

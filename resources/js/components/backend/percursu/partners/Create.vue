@@ -4,6 +4,8 @@
       <v-flex xs12>
         <v-card>
           <v-card-text class="ma-0 pa-0">
+            <v-subheader>Criar um percursu (Curriculum)</v-subheader>
+
             <v-stepper v-model="step" non-linear vertical>
               <v-stepper-step
                 :complete="step > 1"
@@ -25,8 +27,72 @@
                         dismissible
                       >Campos preenchidos com informações da sua conta!</v-alert>
                     </v-flex>
-                    <v-flex xs12></v-flex>
                   </v-layout>
+                  <v-layout row wrap pl-5 v-if="_is('admin') || _is('super-admin')">
+                    <v-flex xs12 md4>
+                      <v-checkbox
+                        @change="checkAuthUser()"
+                        label="Este curriculum não é meu!!!"
+                        v-model="formData.not_mine"
+                      ></v-checkbox>
+                    </v-flex>
+                    <v-flex xs12 md8 v-if="formData.not_mine">
+                      <v-switch
+                        @change="checkAuthUser()"
+                        v-model="formData.new"
+                        label="Criar Novo Utilizador"
+                        color="indigo"
+                        value
+                        input-value="true"
+                        hide-details
+                      ></v-switch>
+                    </v-flex>
+                  </v-layout>
+                  <v-layout row wrap v-if="formData.not_mine && !formData.new">
+                    <v-flex xs12 md4>
+                      <v-select
+                        @change="getUserByUsername(formData.user.username)"
+                        :items="users"
+                        item-text="username"
+                        v-model="formData.user.username"
+                        label="A quem pertence este curriculum?"
+                      ></v-select>
+                    </v-flex>
+                  </v-layout>
+                  <v-layout row wrap v-if="formData.not_mine && formData.new">
+                    <v-flex xs12>
+                      <v-subheader>Para um novo utilizador preencha registo de autenticação</v-subheader>
+                    </v-flex>
+                    <v-flex xs12 md4>
+                      <v-text-field
+                        outlined
+                        name="username"
+                        label="Utilizador"
+                        v-model="formData.user.username"
+                      ></v-text-field>
+                    </v-flex>
+
+                    <v-flex xs12 md4>
+                      <v-text-field
+                        outlined
+                        name="email"
+                        label="Email"
+                        v-model="formData.user.email"
+                        hint="Este email é utilizado para identificar utilizador e autenticar no sistema"
+                      ></v-text-field>
+                    </v-flex>
+
+                    <v-flex xs12 md4>
+                      <v-text-field
+                        outlined
+                        name="password"
+                        label="Palavra Passe"
+                        v-model="formData.user.password"
+                        type="password"
+                      ></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                  <v-divider></v-divider>
                   <v-layout row wrap>
                     <v-flex xs12 sm6 md4>
                       <v-text-field
@@ -1329,7 +1395,7 @@
                   <v-flex xs12 md6>
                     <small>Termo de utilização</small>
                     <v-checkbox
-                      label="*Aceitar o termo de utilização e a nossa política de privacidade"
+                      label="*Aceitar os termos de utilização e a nossa política de privacidade"
                     ></v-checkbox>
                     <v-checkbox
                       label="Quero receber notificações sobre publicação e ofertas de empregos e formações! (Opcional)"
@@ -1337,10 +1403,9 @@
                   </v-flex>
 
                   <v-flex xs12>
-                   <p class="warning--text">
+                    <p class="warning--text">
                       <v-icon color="warning">mdi-alert</v-icon>Ao enviar os dados com sucesso a sua conta será reniniciada. Por isso tens de entrar novamente...
                     </p>
-                   
                   </v-flex>
                 </v-layout>
 
@@ -1365,130 +1430,149 @@ import validateDictionary from "@helpers/api/validateDictionary";
 import moment from "moment";
 import { multFormData } from "@mixins/HandleMultFormData";
 
-import { getChargesDatas } from "@mixins/HelpersData";
+import { getChargesDatas, getUsersDatas } from "@mixins/HelpersData";
 import FileUpload from "@pback/forms/FileUpload";
 import { flashAlert } from "@mixins/AppAlerts";
 
 export default {
-  mixins: [multFormData, getChargesDatas, flashAlert],
+  mixins: [multFormData, getChargesDatas, getUsersDatas, flashAlert],
   name: "",
   components: {
     FileUpload
   },
 
-  data: () => ({
-    sending: false,
-    avatarRules: [
-      value =>
-        !value ||
-        value.size < 1000000 ||
-        "Imagem de perfil não pode ter um tamanho superior a 1MB"
-    ],
-    coverRules: [
-      value =>
-        !value ||
-        value.size < 2000000 ||
-        "Imagem de capa não pode ter um tamanho superior a 2MB"
-    ],
-    formErrors: {
-      charge: [],
-      partner: [],
-      experience: [],
-      formation: [],
-      skill: [],
-      address: [],
-      contacts: [],
-      final: []
-    },
-    repeatedPhone: false,
-    repeatedEmail: false,
-    repeatedSite: false,
-    repeatedSocial: false,
-    step: 1,
-    addingCharge: false,
-    startDateMenu: false,
-    // from_date_menu: false,
-    from_date_menu: {},
-    from_ex_date_menu: {},
-    to_date_menu: {},
-    to_ex_date_menu: {},
-    birthdate_menu: false,
-    charge: { name: "", description: "" },
-    formData: {
-      charges: [],
-      status: false,
-      folk: {
-        name: "",
-        lastname: "",
-        gender: "",
-        birthdate: "",
-        ic: "",
-        nif: "",
-        avatar: "",
-        cover: "",
-        phones: [{ number: "", type: "" }],
-        couriers: [{ email: "", type: "" }],
-        address: {
-          country: "Cabo Verde",
-          city: "",
-          street: "",
-          postcode: "",
-          location: { lat: "22", lng: "29" }
-        }
+  data() {
+    return {
+      sending: false,
+      avatarRules: [
+        value =>
+          !value ||
+          value.size < 1000000 ||
+          "Imagem de perfil não pode ter um tamanho superior a 1MB"
+      ],
+      coverRules: [
+        value =>
+          !value ||
+          value.size < 2000000 ||
+          "Imagem de capa não pode ter um tamanho superior a 2MB"
+      ],
+      user: [],
+      myusers: [],
+      formErrors: {
+        charge: [],
+        partner: [],
+        experience: [],
+        formation: [],
+        skill: [],
+        address: [],
+        contacts: [],
+        final: []
       },
-      experiences: [
-        {
-          task: "",
-          from: new Date().toISOString().substr(0, 10),
-          to: new Date().toISOString().substr(0, 10),
-          ongoing: false,
-          employer: "",
-          responsibility: "",
-          attachment: ""
-        }
-      ],
-      formations: [
-        {
-          designation: "",
-          from: new Date().toISOString().substr(0, 10),
-          to: new Date().toISOString().substr(0, 10),
-          ongoing: false,
-          institution: "",
-          subjects: "",
-          level: "",
-          country: "",
-          city: "",
-          attachment: ""
-        }
+      repeatedPhone: false,
+      repeatedEmail: false,
+      repeatedSite: false,
+      repeatedSocial: false,
+      step: 1,
+      addingCharge: false,
+      startDateMenu: false,
+      // from_date_menu: false,
+      from_date_menu: {},
+      from_ex_date_menu: {},
+      to_date_menu: {},
+      to_ex_date_menu: {},
+      birthdate_menu: false,
+      charge: { name: "", description: "" },
+      formData: {
+        not_mine: false,
+        new: false,
+        charges: [],
+        status: false,
+        featured: false,
+        promo: false,
+        user: {
+          username: "",
+          password: "",
+          email: ""
+        },
+        folk: {
+          name: "",
+          lastname: "",
+          gender: "",
+          birthdate: "",
+          ic: "",
+          nif: "",
+          avatar: "",
+          cover: "",
+          phones: [{ number: "", type: "" }],
+          couriers: [{ email: "", type: "" }],
+          address: {
+            country: "Cabo Verde",
+            city: "",
+            street: "",
+            postcode: "",
+            location: { lat: "22", lng: "29" }
+          }
+        },
+        experiences: [
+          {
+            task: "",
+            from: new Date().toISOString().substr(0, 10),
+            to: new Date().toISOString().substr(0, 10),
+            ongoing: false,
+            employer: "",
+            responsibility: "",
+            attachment: ""
+          }
+        ],
+        formations: [
+          {
+            designation: "",
+            from: new Date().toISOString().substr(0, 10),
+            to: new Date().toISOString().substr(0, 10),
+            ongoing: false,
+            institution: "",
+            subjects: "",
+            level: "",
+            country: "",
+            city: "",
+            attachment: ""
+          }
+        ],
+
+        skills: [{ name: "", description: "" }],
+        sites: [],
+        socials: []
+      },
+      contactsType: [
+        { id: 1, name: "Pessoal" },
+        { id: 2, name: "Casa" },
+        { id: 3, name: "Trabalho" }
       ],
 
-      skills: [{ name: "", description: "" }],
-      sites: [],
-      socials: []
-    },
-    contactsType: [
-      { id: 1, name: "Pessoal" },
-      { id: 2, name: "Casa" },
-      { id: 3, name: "Trabalho" }
-    ],
+      socialMedias: [
+        "GitHub",
+        "Linkedin",
+        "Twitter",
+        "Google+",
+        "Facebook",
+        "Reddit"
+      ],
+      levels: [1, 2, 3, 4, 5],
+      dictionary: validateDictionary,
+      selectedFile: null
+    };
+  },
 
-    socialMedias: [
-      "GitHub",
-      "Linkedin",
-      "Twitter",
-      "Google+",
-      "Facebook",
-      "Reddit"
-    ],
-    levels: [1, 2, 3, 4, 5],
-    dictionary: validateDictionary,
-    selectedFile: null
-  }),
+  // data: () => ({
+
+  // }),
 
   created() {
     this.getUserLocation();
     this.checkAuthUser();
     this.getCharges();
+    this.getUsersIfHasPermissions();
+    this.getUsersWithoutPartner();
   },
 
   mounted() {
@@ -1532,6 +1616,25 @@ export default {
   },
 
   methods: {
+    getUserByUsername: function(username) {
+      if (this.users.length > 0) {
+        this.user = this.users.find(user => user.username == username);
+      }
+      this.formData.folk.name = this.user.folk.name;
+      this.formData.folk.lastname = this.user.folk.lastname;
+      this.formData.folk.birthdate = this.user.folk.birthdate;
+      this.formData.folk.ic = this.user.folk.ic;
+      this.formData.folk.gender = this.user.folk.gender;
+      this.formData.folk.nif = this.user.folk.nif;
+      this.formData.folk.avatar = this.user.folk.avatar;
+      this.formData.folk.cover = this.user.folk.cover;
+    },
+    getUsersIfHasPermissions() {
+      if (this._is("admin") || this._is("super-admin")) {
+        this.getUsers();
+      }
+    },
+
     uploadAvatar(file) {
       this.formData.folk.avatar = file;
     },
@@ -1576,14 +1679,31 @@ export default {
         .then(response => {
           this.sending = false;
           if (response.data.exist) {
-            this.feedback("warning", response.data.msg, 6000, true);
+            this.feedback(
+              "warning",
+              response.data.msg,
+              6000,
+              true,
+              bottom - end
+            );
+            this.$router.go(-1);
+
+            return;
+          }
+          this.feedback(
+            "warning",
+            "A sua sessão será iniciada",
+            3000,
+            true,
+            "bottom-end"
+          );
+          this.feedback("success", response.data.msg, 3000, true, "top");
+          window.getApp.$emit("APP_UPDATE_ALL_PARTNERS_DATA");
+          if (this.formData.not_mine) {
             this.$router.push({ name: "list-partners" });
             return;
           }
-          this.feedback("warning", "A sua sessão será iniciada", 3000, true);
-          this.feedback("success", response.data.msg, 3000, true);
-          window.getApp.$emit("APP_UPDATE_ALL_PARTNERS_DATA");
-          // this.$router.push({ name: "list-partners" });
+          this.$router.go(-1);
           this.logout();
         })
         .catch(err => {
@@ -1603,9 +1723,17 @@ export default {
         });
     },
 
+    getUsersWithoutPartner() {
+      axios
+        .get("/api/v1/system/usersWithoutPartner")
+        .then(response => {
+          this.myusers = response.data.data;
+        })
+        .catch(err => {});
+    },
 
     cancel: function() {
-      this.$router.go(-1)
+      this.$router.go(-1);
       // this.$router.push({ name: "list-partners" });
     },
 

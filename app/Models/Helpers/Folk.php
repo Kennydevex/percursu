@@ -10,8 +10,9 @@ class Folk extends Model
     protected $fillable = [
         'name', 
         'lastname',
-        'gender', 
+        'gender',
         'avatar', 
+        'cover', 
         'ic', 
         'nif', 
         'birthdate', 

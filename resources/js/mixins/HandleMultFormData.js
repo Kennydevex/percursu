@@ -4,13 +4,31 @@ export const multFormData = {
     methods: {
 
         checkAuthUser() {
-            this.formData.folk.name = this.authUser.folk.name;
-            this.formData.folk.lastname = this.authUser.folk.lastname;
-            this.formData.folk.birthdate = this.authUser.folk.birthdate;
-            this.formData.folk.ic = this.authUser.folk.ic;
-            this.formData.folk.gender = this.authUser.folk.gender;
-            this.formData.folk.nif = this.authUser.folk.nif;
-            // this.formData.couriers.email = this.authUser.email;
+            if (!this.formData.not_mine) {
+                this.formData.folk.name = this.authUser.folk.name;
+                this.formData.folk.lastname = this.authUser.folk.lastname;
+                this.formData.folk.birthdate = this.authUser.folk.birthdate;
+                this.formData.folk.ic = this.authUser.folk.ic;
+                this.formData.folk.gender = this.authUser.folk.gender;
+                this.formData.folk.nif = this.authUser.folk.nif;
+                this.formData.folk.avatar = this.authUser.folk.avatar;
+                this.formData.folk.cover = this.authUser.folk.cover;
+                this.formData.user.username = '';
+                this.formData.new = false;
+                // this.formData.couriers.email = this.authUser.email;
+                return;
+            }
+            this.formData.folk.name = '';
+            this.formData.folk.lastname = '';
+            this.formData.folk.birthdate = '';
+            this.formData.folk.ic = '';
+            this.formData.folk.gender = '';
+            this.formData.folk.nif = '';
+            this.formData.folk.avatar = '';
+            this.formData.user.username = '';
+
+                // this.formData.couriers.email = this.authUser.email;
+            return;
         },
 
         canAddPhone(k) {

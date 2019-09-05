@@ -37,7 +37,7 @@
     </v-layout>
 
     <v-layout row wrap>
-      <v-flex xs12 md8>
+      <v-flex xs12>
         <v-card>
           <v-toolbar color="white" flat>
             <v-text-field
@@ -49,6 +49,11 @@
               hide-details
               class="hidden-sm-and-down"
             ></v-text-field>
+            <span v-if="selected.length>0">
+              <v-btn icon @click="onDeleteUsers()">
+                <v-icon>mdi-trash-can</v-icon>
+              </v-btn>
+            </span>
             <v-btn icon>
               <v-icon>mdi-filter-variant</v-icon>
             </v-btn>
@@ -100,40 +105,6 @@
           </v-card-text>
         </v-card>
       </v-flex>
-
-      <v-flex xs12 md4>
-        <v-layout column wrap>
-          <v-flex xs12>
-            <v-card>
-              <v-card-title primary-title>
-                Permissões
-                <v-spacer></v-spacer>
-                <v-btn @click="handleToggleCreatePermissionDialog()" x-small icon text>
-                  <v-icon>mdi-clipboard-plus</v-icon>
-                </v-btn>
-              </v-card-title>
-              <v-card-text class="pa-0">
-                <permissions-data-table />
-              </v-card-text>
-            </v-card>
-          </v-flex>
-
-          <v-flex xs12>
-            <v-card>
-              <v-card-title primary-title>
-                Papeis
-                <v-spacer></v-spacer>
-                <v-btn @click="handleToggleCreateRoleDialog()" x-small icon text>
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </v-card-title>
-              <v-card-text class="pa-0">
-                <roles-data-table />
-              </v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-flex>
     </v-layout>
 
     <v-layout row wrap>
@@ -142,7 +113,7 @@
           v-model="fab"
           bottom="bottom"
           right="right"
-          direction="top"
+          direction="left"
           transition="slide-y-reverse-transition"
         >
           <template v-slot:activator>
@@ -150,15 +121,14 @@
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
-          <v-btn fab dark small color="green" :to="{name: 'create-user'}">
+          <v-btn fab dark small color="primary" :to="{name: 'create-user'}">
             <v-icon>mdi-account-plus</v-icon>
           </v-btn>
 
-          <v-btn fab dark small color="green" @click="handleToggleCreatePermissionDialog()">
+          <v-btn fab dark small color="grey" @click="handleToggleCreatePermissionDialog()">
             <v-icon>mdi-lock-plus</v-icon>
           </v-btn>
-
-          <v-btn fab dark small color="green" :to="{name: 'create-user'}">
+          <v-btn fab dark small color="grey" @click="handleToggleCreateRoleDialog()">
             <v-icon>mdi-account-card-details</v-icon>
           </v-btn>
         </v-speed-dial>
@@ -175,23 +145,15 @@
 
 <script>
 import MiniStatistic from "@widgets/statistic/MiniStatistic";
-import {
-  getUsersDatas,
-  getPermissionsDatas,
-  getRolesDatas
-} from "@mixins/HelpersData";
+import { getUsersDatas } from "@mixins/HelpersData";
 import { log } from "util";
 import { flashAlert, actionAlert } from "@mixins/AppAlerts";
-import RolesDataTable from "@pback/datas/RolesDataTable";
-import PermissionsDataTable from "@pback/datas/PermissionsDataTable";
 import CreatePermission from "../permissions/Create";
 import CreateRole from "../roles/Create";
 
 export default {
   mixins: [
     getUsersDatas,
-    getPermissionsDatas,
-    getRolesDatas,
     flashAlert,
     actionAlert
   ],
@@ -201,6 +163,7 @@ export default {
       loadUserAtivaction: {},
       search: "",
       selected: [],
+      users_id: [],
       headers: [
         {
           text: "Nome",
@@ -232,8 +195,6 @@ export default {
 
   components: {
     MiniStatistic,
-    RolesDataTable,
-    PermissionsDataTable,
     CreatePermission,
     CreateRole
   },
@@ -260,7 +221,7 @@ export default {
 
     handleToggleCreateRoleDialog() {
       window.getApp.$emit("APP_ROLE_CREATE_DIALOG");
-    }, 
+    },
 
     handleUserActivation: function(id, status) {
       let feed = status ? "Desativada" : "Ativada";
@@ -281,14 +242,32 @@ export default {
             .get("/api/v1/system/changeUserActivation/" + id)
             .then(response => {
               this.getUpdatedUsers();
-              this.feedback("success", "Conta " + feed + " com sucesso", true);
+              this.feedback(
+                "success",
+                "Conta " + feed + " com sucesso",
+                3000,
+                true,
+                "top"
+              );
               this.$set(this.loadUserAtivaction, id, false);
             })
             .catch(err => {
-              this.feedback("error", "Erro de operação, tente outra vez", true);
+              this.feedback(
+                "error",
+                "Erro de operação, tente outra vez",
+                3000,
+                true,
+                "bottom-end"
+              );
             });
         } else if (result.dismiss === "cancel") {
-          this.feedback("error", "Operação cancelada!", true);
+          this.feedback(
+            "error",
+            "Operação cancelada!",
+            3000,
+            true,
+            "bottom-end"
+          );
         }
       });
     },
@@ -296,9 +275,45 @@ export default {
     onDeleteUser: function(id) {
       this.deleteAlert("warning", "Eliminar Utilizador").then(result => {
         if (result.value) {
-          this.deleteUser(id);
+          this.deleteUsers(id);
         } else if (result.dismiss === "cancel") {
-          this.feedback("error", "Operação cancelada!", true);
+          this.feedback(
+            "error",
+            "Operação cancelada!",
+            3000,
+            true,
+            "bottom-end"
+          );
+        }
+      });
+    },
+
+    setDeleteMultUser() {
+      let mthis = this;
+      this.selected.forEach(function(user) {
+        mthis.users_id.push(user.id);
+      });
+    },
+
+    onDeleteUsers: function() {
+      this.setDeleteMultUser();
+      this.deleteAlert(
+        "warning",
+        "Eliminar Utilizadores",
+        "Preste a apagar " +
+          this.selected.length +
+          " Utilizadores da base de dados"
+      ).then(result => {
+        if (result.value) {
+          this.deleteUsers(this.users_id);
+        } else if (result.dismiss === "cancel") {
+          this.feedback(
+            "error",
+            "Operação cancelada!",
+            3000,
+            true,
+            "bottom-end"
+          );
         }
       });
     },
@@ -307,12 +322,18 @@ export default {
       this.$router.push({ name: "update-user", params: { username } });
     },
 
-    deleteUser: function(id) {
+    deleteUsers: function(id) {
       axios
         .delete("/api/v1/system/users/" + id)
         .then(response => {
           this.getUpdatedUsers();
-          this.feedback("success", "Utilizador eliminado com sucesso", true);
+          this.feedback(
+            "success",
+            "Utilizador eliminado com sucesso",
+            3000,
+            true,
+            "top"
+          );
         })
         .catch(err => {});
     }

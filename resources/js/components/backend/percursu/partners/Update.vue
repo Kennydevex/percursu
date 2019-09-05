@@ -3,7 +3,9 @@
     <v-layout row wrap>
       <v-flex xs12>
         <v-card>
-          <v-card-text class="ma-0 pa-0">
+         
+          <v-card-text>
+            <v-subheader>Editar as suas informações de curriculum</v-subheader>
             <v-stepper v-model="step" non-linear vertical>
               <v-stepper-step
                 :complete="step > 1"
@@ -15,18 +17,6 @@
               </v-stepper-step>
               <v-stepper-content step="1">
                 <v-form @submit.prevent="nextStep('form-step-1')" data-vv-scope="form-step-1">
-                  <v-layout row wrap>
-                    <v-flex xs6>
-                      <v-alert
-                        class="hidden-sm-and-down"
-                        outlined
-                        type="info"
-                        :value="true"
-                        dismissible
-                      >Campos preenchidos com informações da sua conta!</v-alert>
-                    </v-flex>
-                    <v-flex xs12></v-flex>
-                  </v-layout>
                   <v-layout row wrap>
                     <v-flex xs12 sm6 md4>
                       <v-text-field
@@ -1584,7 +1574,8 @@ export default {
             .then(response => {
               this.feedback("success", response.data.msg, 4000, true);
               window.getApp.$emit("APP_UPDATE_ALL_PARTNERS_DATA");
-              this.$router.push({ name: "list-partners" });
+              this.$router.go(-1);
+              // this.$router.push({ name: "list-partners" });
               this.formErrors = [];
             })
             .catch(err => {

@@ -3,7 +3,9 @@
     <v-flex xs12>
       <v-card width="100%">
         <v-card-title primary-title>
-          <small class="font-weight-light text-capitalize"><v-icon>mdi-plus</v-icon> Criar Registo</small>
+          <small class="font-weight-light text-capitalize">
+            Registo de Utilizador
+          </small>
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text>
@@ -70,17 +72,46 @@
                   ></v-text-field>
                 </v-flex>
 
-                 <v-flex xs12 md6>
-                   <v-text-field
-                    outlined
-                    label="Data de Nascimento"
-                    v-model="formData.birthdate"
-                    hint="Insira o seu NIF"
-                  ></v-text-field>
+                <v-flex xs12 md6>
+                  <input
+                    style="display:none"
+                    name="from_field_target"
+                    ref="valDate"
+                    v-model="valDate"
+                    type="text"
+                  />
+                  <v-menu
+                    v-model="birthdate_menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        outlined
+                        name="birthdate"
+                        label="Data de Nascimento"
+                        :value="formattingBirthdate"
+                        prepend-inner-icon="mdi-calendar"
+                        readonly
+                        v-on="on"
+                        v-validate="'required|date_format:dd/MM/yyyy|before:valDate'"
+                        data-vv-as="birthdate"
+                        :error-messages="errors.collect('birthdate')"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="formData.birthdate"
+                      @input="birthdate_menu= false"
+                      locale="pt-pt"
+                    ></v-date-picker>
+                  </v-menu>
                 </v-flex>
 
                 <v-flex xs12 md6>
-                  <p>Sexo do utilizador</p>
                   <v-radio-group v-model="formData.gender" row>
                     <v-radio color="blue" label="Masculino" value="m"></v-radio>
                     <v-radio color="orange" label="Feminino" value="f"></v-radio>
@@ -88,7 +119,7 @@
                 </v-flex>
 
                 <v-flex xs12>
-                  <v-subheader>Contactos e Login</v-subheader>
+                  <v-subheader>Conta e Autenticação</v-subheader>
                 </v-flex>
 
                 <v-flex xs12 md4>
@@ -155,11 +186,12 @@
                 </v-flex>
 
                 <v-flex xs12>
-                  <v-subheader>Configuração da conta</v-subheader>
+                  <v-subheader>Permissão de Acesso</v-subheader>
                 </v-flex>
 
                 <v-flex xs12 md6>
                   <v-select
+                    height="10"
                     outlined
                     name="roles"
                     :items="roles"
@@ -177,6 +209,7 @@
 
                 <v-flex xs12 md6>
                   <v-select
+                    height="10"
                     outlined
                     name="permissions"
                     :items="permissions"
@@ -210,11 +243,11 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="addUser" color="primary">Guardar</v-btn>
-          <v-btn text @click="clear">
-            <v-icon>mdi-close</v-icon>
+          <v-btn text @click="addUser" rounded color="primary">Guardar</v-btn>
+          <v-btn rounded text @click="clear">
+            <v-icon>mdi-eraser</v-icon>
           </v-btn>
-          <v-btn text @click="goBack">
+          <v-btn rounded text @click="goBack">
             <v-icon>mdi-keyboard-backspace</v-icon>
           </v-btn>
         </v-card-actions>
@@ -228,15 +261,15 @@ import validateDictionary from "@helpers/api/validateDictionary";
 import { clearForm } from "@mixins/HandleForm";
 import { getRolesDatas, getPermissionsDatas } from "@mixins/HelpersData";
 import { flashAlert } from "@mixins/AppAlerts";
-import { log } from 'util';
-
+import moment from 'moment'
 export default {
   mixins: [getRolesDatas, getPermissionsDatas, clearForm, flashAlert],
 
   data: () => ({
-   
     showPass: false,
     formErrors: [],
+    birthdate_menu: false,
+
     formData: {
       name: "",
       lastname: "",
@@ -246,7 +279,7 @@ export default {
       phone_number: "",
       email: "",
       password: "",
-      birthdate: "",
+      birthdate: new Date().toISOString().substr(0, 10),
       password_confirmation: "",
       status: false,
       avatar: "default.svg",
@@ -262,6 +295,19 @@ export default {
   mounted() {
     this.$validator.localize("pt", this.dictionary);
   },
+
+  computed: {
+    valDate() {
+      return moment(new Date().toISOString().substr(0, 10)).format(
+        "DD/MM/YYYY"
+      );
+    },
+    formattingBirthdate() {
+      return this.formData.birthdate
+        ? moment(this.formData.birthdate).format("DD/MM/YYYY")
+        : "";
+    }
+  },
   methods: {
     addUser() {
       this.$validator.validateAll().then(noErrorOnValidate => {
@@ -269,7 +315,7 @@ export default {
           axios
             .post("/api/v1/system/users", this.$data.formData)
             .then(response => {
-              this.feedback("success", response.data.msg, true);
+              this.feedback("success", response.data.msg, 3000, true, 'top');
               window.getApp.$emit("APP_UPDATE_ALL_USERS_DATA");
               this.clear();
               this.$router.push({ name: "list-users" });

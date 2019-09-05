@@ -13,6 +13,14 @@ use Percursu\Http\Requests\System\UserRequest;
 
 class UserController extends Controller
 {
+
+    // public function __construct()
+    // {
+    //     // $this->middleware('jwt.auth', ['except' => ['activedPartners', 'show']]);
+    //     $this->middleware('jwt.auth');
+
+    //     $this->middleware(['role:super-admin|admin']);
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -113,11 +121,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $userData = User::find($id);
-        $userData->delete();
+
+        $ids = explode(",", $id);
+        User::destroy($ids);
         return response()->json([
             'msg' => 'Utilizador eliminado com sucesso',
-
         ]);
     }
 
@@ -130,6 +138,13 @@ class UserController extends Controller
 
         return response()->json([
             'msg' => 'Operação efetuado do com sucesso ',
+        ]);
+    }
+
+    public function usersWithoutPartner()
+    {
+        return response()->json([
+            'msg' => 'Pegal prop ',
         ]);
     }
 }

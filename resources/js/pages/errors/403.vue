@@ -8,7 +8,7 @@
         <h1 class="display-2 primary--text">Upsss, 403</h1>
         <p>Agradecemos a sua preferência e pedimos desculpas caso for flaha do sistema, mas, por agora não tens permissão para acessar esta página</p>
         <p>
-        <small>Se for problema do sistema, por favor contacte adminitrador</small>
+        <small>Tente reiniciar a sua sessão, se não funcionar, contacte o adminitrador</small>
 
         </p>
         <v-btn

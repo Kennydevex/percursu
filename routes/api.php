@@ -13,16 +13,23 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    Route::group(['namespace' => 'System', 'prefix' => 'system', 'middleware' => ['role:write222r']], function ($router) {
-        Route::resource('users', 'UserController');
-        Route::get('changeUserActivation/{id}', 'UserController@changeUserActivation');
-        Route::resource('permissions', 'PermissionController');
-        Route::resource('roles', 'RoleController');
+    Route::group(['middleware' => 'jwt.auth'], function () {
+        Route::group(['namespace' => 'System', 'prefix' => 'system', 'middleware' => ['role:super-admin|admin']], function ($router) {
+            Route::resource('users', 'UserController');
+            Route::get('usersWithoutPartner', 'UserController@usersWithoutPartner');
+            Route::get('changeUserActivation/{id}', 'UserController@changeUserActivation');
+            Route::resource('permissions', 'PermissionController');
+            Route::resource('roles', 'RoleController');
+        });
     });
+    
 
     Route::group(['namespace' => 'Percursu', 'prefix' => 'percursu',], function ($router) {
         Route::resource('partners', 'PartnerController');
         Route::get('changePartnerActivation/{id}', 'PartnerController@changePartnerActivation');
+       
+        Route::get('changePartnerFeatured/{id}', 'PartnerController@changePartnerFeatured');
+        Route::get('changePartnerPromotion/{id}', 'PartnerController@changePartnerPromotion');
         Route::get('activedPartners', 'PartnerController@activedPartners');
         Route::resource('charges', 'ChargeController');
         Route::resource('experiences', 'ExperienceController');

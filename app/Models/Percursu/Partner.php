@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Partner extends Model
 {
-    protected $fillable = ['status', 'folk_id'];
+    protected $fillable = ['status','featured',  'promo', 'folk_id'];
 
     public function folk()
     {
